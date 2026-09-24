@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 500" width="1120" height="500" role="img" aria-label="My rebuild agrees with the ONS less the more recent the year">
+<rect width="1120" height="500" fill="#fbfaf7"/>
+<text x="64.0" y="44.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="21" font-weight="600" fill="#111110" text-anchor="start">My rebuild agrees with the ONS less the more recent the year</text>
+<text x="64.0" y="70.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="14" font-weight="400" fill="#52514e" text-anchor="start">Share of small areas where the median price rebuilt from Land Registry sales equals the ONS's published median to the pound</text>
+<line x1="64.0" y1="390.0" x2="1080.0" y2="390.0" stroke="#c3c2b7" stroke-width="1.0"/>
+<text x="54.0" y="394.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#6b6a65" text-anchor="end">0%</text>
+<line x1="64.0" y1="322.0" x2="1080.0" y2="322.0" stroke="#e6e4dc" stroke-width="1.0"/>
+<text x="54.0" y="326.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#6b6a65" text-anchor="end">25%</text>
+<line x1="64.0" y1="254.0" x2="1080.0" y2="254.0" stroke="#e6e4dc" stroke-width="1.0"/>
+<text x="54.0" y="258.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#6b6a65" text-anchor="end">50%</text>
+<line x1="64.0" y1="186.0" x2="1080.0" y2="186.0" stroke="#e6e4dc" stroke-width="1.0"/>
+<text x="54.0" y="190.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#6b6a65" text-anchor="end">75%</text>
+<line x1="64.0" y1="118.0" x2="1080.0" y2="118.0" stroke="#e6e4dc" stroke-width="1.0"/>
+<text x="54.0" y="122.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#6b6a65" text-anchor="end">100%</text>
+<path d="M179.0,390.0 V156.3 Q179.0,152.3 183.0,152.3 H199.0 Q203.0,152.3 203.0,156.3 V390.0 Z" fill="#2a78d6"/>
+<text x="191.0" y="142.3" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="600" fill="#111110" text-anchor="middle">87.4%</text>
+<text x="191.0" y="412.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">2020</text>
+<path d="M433.0,390.0 V199.9 Q433.0,195.9 437.0,195.9 H453.0 Q457.0,195.9 457.0,199.9 V390.0 Z" fill="#2a78d6"/>
+<text x="445.0" y="185.9" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="600" fill="#111110" text-anchor="middle">71.3%</text>
+<text x="445.0" y="412.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">2021</text>
+<path d="M687.0,390.0 V216.0 Q687.0,212.0 691.0,212.0 H707.0 Q711.0,212.0 711.0,216.0 V390.0 Z" fill="#2a78d6"/>
+<text x="699.0" y="202.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="600" fill="#111110" text-anchor="middle">65.5%</text>
+<text x="699.0" y="412.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">Apr 2021 to</text>
+<text x="699.0" y="428.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">Mar 2022</text>
+<path d="M941.0,390.0 V302.5 Q941.0,298.5 945.0,298.5 H961.0 Q965.0,298.5 965.0,302.5 V390.0 Z" fill="#2a78d6"/>
+<text x="953.0" y="288.5" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="600" fill="#111110" text-anchor="middle">33.6%</text>
+<text x="953.0" y="412.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">Apr 2022 to</text>
+<text x="953.0" y="428.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">Mar 2023</text>
+<text x="64.0" y="476.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#6b6a65" text-anchor="start">Sales registered after the ONS took its extract are in today's files and not in its figures. The older the period, the fewer of them there are.</text>
+</svg>

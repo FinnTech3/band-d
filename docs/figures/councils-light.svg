@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 668" width="1120" height="668" role="img" aria-label="The councils where council tax takes most and least">
+<rect width="1120" height="668" fill="#fbfaf7"/>
+<text x="64.0" y="44.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="21" font-weight="600" fill="#111110" text-anchor="start">The councils where council tax takes most and least</text>
+<text x="64.0" y="70.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="14" font-weight="400" fill="#52514e" text-anchor="start">Council tax a year per £1,000 of home value, each council's areas combined, 2026-27</text>
+<text x="282.0" y="125.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Blackpool</text>
+<path d="M294.0,113.0 H966.0 Q970.0,113.0 970.0,117.0 V125.0 Q970.0,129.0 966.0,129.0 H294.0 Z" fill="#e34948"/>
+<text x="980.0" y="125.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£13.83</text>
+<text x="282.0" y="153.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Middlesbrough</text>
+<path d="M294.0,141.0 H949.0 Q953.0,141.0 953.0,145.0 V153.0 Q953.0,157.0 949.0,157.0 H294.0 Z" fill="#e34948"/>
+<text x="963.0" y="153.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£13.48</text>
+<text x="282.0" y="181.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Hartlepool</text>
+<path d="M294.0,169.0 H944.0 Q948.0,169.0 948.0,173.0 V181.0 Q948.0,185.0 944.0,185.0 H294.0 Z" fill="#e34948"/>
+<text x="958.0" y="181.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£13.38</text>
+<text x="282.0" y="209.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Burnley</text>
+<path d="M294.0,197.0 H923.0 Q927.0,197.0 927.0,201.0 V209.0 Q927.0,213.0 923.0,213.0 H294.0 Z" fill="#e34948"/>
+<text x="937.0" y="209.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£12.95</text>
+<text x="282.0" y="237.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Hyndburn</text>
+<path d="M294.0,225.0 H912.4 Q916.4,225.0 916.4,229.0 V237.0 Q916.4,241.0 912.4,241.0 H294.0 Z" fill="#e34948"/>
+<text x="926.4" y="237.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£12.73</text>
+<text x="282.0" y="265.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Pendle</text>
+<path d="M294.0,253.0 H902.6 Q906.6,253.0 906.6,257.0 V265.0 Q906.6,269.0 902.6,269.0 H294.0 Z" fill="#e34948"/>
+<text x="916.6" y="265.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£12.53</text>
+<text x="282.0" y="293.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Durham</text>
+<path d="M294.0,281.0 H887.6 Q891.6,281.0 891.6,285.0 V293.0 Q891.6,297.0 887.6,297.0 H294.0 Z" fill="#e34948"/>
+<text x="901.6" y="293.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£12.22</text>
+<text x="282.0" y="321.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Redcar and Cleveland</text>
+<path d="M294.0,309.0 H877.0 Q881.0,309.0 881.0,313.0 V321.0 Q881.0,325.0 877.0,325.0 H294.0 Z" fill="#e34948"/>
+<text x="891.0" y="321.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£12.01</text>
+<text x="282.0" y="369.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Islington</text>
+<path d="M294.0,357.0 H426.2 Q430.2,357.0 430.2,361.0 V369.0 Q430.2,373.0 426.2,373.0 H294.0 Z" fill="#2a78d6"/>
+<text x="440.2" y="369.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£2.79</text>
+<text x="282.0" y="397.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Hackney</text>
+<path d="M294.0,385.0 H424.0 Q428.0,385.0 428.0,389.0 V397.0 Q428.0,401.0 424.0,401.0 H294.0 Z" fill="#2a78d6"/>
+<text x="438.0" y="397.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£2.74</text>
+<text x="282.0" y="425.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Camden</text>
+<path d="M294.0,413.0 H399.1 Q403.1,413.0 403.1,417.0 V425.0 Q403.1,429.0 399.1,429.0 H294.0 Z" fill="#2a78d6"/>
+<text x="413.1" y="425.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£2.23</text>
+<text x="282.0" y="453.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Hammersmith and Fulham</text>
+<path d="M294.0,441.0 H384.4 Q388.4,441.0 388.4,445.0 V453.0 Q388.4,457.0 384.4,457.0 H294.0 Z" fill="#2a78d6"/>
+<text x="398.4" y="453.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£1.93</text>
+<text x="282.0" y="481.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">City of London</text>
+<path d="M294.0,469.0 H378.1 Q382.1,469.0 382.1,473.0 V481.0 Q382.1,485.0 378.1,485.0 H294.0 Z" fill="#2a78d6"/>
+<text x="392.1" y="481.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£1.80</text>
+<text x="282.0" y="509.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Wandsworth</text>
+<path d="M294.0,497.0 H360.6 Q364.6,497.0 364.6,501.0 V509.0 Q364.6,513.0 360.6,513.0 H294.0 Z" fill="#2a78d6"/>
+<text x="374.6" y="509.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£1.44</text>
+<text x="282.0" y="537.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Kensington and Chelsea</text>
+<path d="M294.0,525.0 H353.0 Q357.0,525.0 357.0,529.0 V537.0 Q357.0,541.0 353.0,541.0 H294.0 Z" fill="#2a78d6"/>
+<text x="367.0" y="537.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£1.29</text>
+<text x="282.0" y="565.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#111110" text-anchor="end">Westminster</text>
+<path d="M294.0,553.0 H332.4 Q336.4,553.0 336.4,557.0 V565.0 Q336.4,569.0 332.4,569.0 H294.0 Z" fill="#2a78d6"/>
+<text x="346.4" y="565.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="400" fill="#111110" text-anchor="start">£0.87</text>
+<line x1="294.0" y1="104.0" x2="294.0" y2="578.0" stroke="#c3c2b7" stroke-width="1.0"/>
+<text x="64.0" y="644.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#6b6a65" text-anchor="start">296 councils in all. Band D rates alone would not produce this: it comes from home values the 1991 bands no longer track.</text>
+</svg>

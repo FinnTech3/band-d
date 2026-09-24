@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 560" width="1120" height="560" role="img" aria-label="The cheaper the home, the more of it council tax takes">
+<rect width="1120" height="560" fill="#161614"/>
+<text x="64.0" y="44.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="21" font-weight="600" fill="#f3f2ee" text-anchor="start">The cheaper the home, the more of it council tax takes</text>
+<text x="64.0" y="70.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="14" font-weight="400" fill="#c3c2b7" text-anchor="start">Council tax a year for every £1,000 of home value, England 2026-27, by tenths of homes sorted by value</text>
+<line x1="64.0" y1="440.0" x2="1080.0" y2="440.0" stroke="#2a2a27" stroke-width="1.0"/>
+<text x="54.0" y="444.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#9a988f" text-anchor="end">£0</text>
+<line x1="64.0" y1="325.0" x2="1080.0" y2="325.0" stroke="#2a2a27" stroke-width="1.0"/>
+<text x="54.0" y="329.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#9a988f" text-anchor="end">£5</text>
+<line x1="64.0" y1="210.0" x2="1080.0" y2="210.0" stroke="#2a2a27" stroke-width="1.0"/>
+<text x="54.0" y="214.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#9a988f" text-anchor="end">£10</text>
+<path d="M102.8,440.0 V147.2 Q102.8,143.2 106.8,143.2 H122.8 Q126.8,143.2 126.8,147.2 V440.0 Z" fill="#3987e5"/>
+<text x="114.8" y="133.2" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="600" fill="#f3f2ee" text-anchor="middle">£12.91</text>
+<text x="114.8" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#c3c2b7" text-anchor="middle">£137k</text>
+<path d="M204.4,440.0 V218.0 Q204.4,214.0 208.4,214.0 H224.4 Q228.4,214.0 228.4,218.0 V440.0 Z" fill="#3987e5"/>
+<text x="216.4" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#c3c2b7" text-anchor="middle">£191k</text>
+<path d="M306.0,440.0 V243.4 Q306.0,239.4 310.0,239.4 H326.0 Q330.0,239.4 330.0,243.4 V440.0 Z" fill="#3987e5"/>
+<text x="318.0" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#c3c2b7" text-anchor="middle">£226k</text>
+<path d="M407.6,440.0 V260.6 Q407.6,256.6 411.6,256.6 H427.6 Q431.6,256.6 431.6,260.6 V440.0 Z" fill="#3987e5"/>
+<text x="419.6" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#c3c2b7" text-anchor="middle">£262k</text>
+<path d="M509.2,440.0 V274.6 Q509.2,270.6 513.2,270.6 H529.2 Q533.2,270.6 533.2,274.6 V440.0 Z" fill="#3987e5"/>
+<text x="521.2" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#c3c2b7" text-anchor="middle">£300k</text>
+<path d="M610.8,440.0 V288.6 Q610.8,284.6 614.8,284.6 H630.8 Q634.8,284.6 634.8,288.6 V440.0 Z" fill="#3987e5"/>
+<text x="622.8" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#c3c2b7" text-anchor="middle">£342k</text>
+<path d="M712.4,440.0 V302.7 Q712.4,298.7 716.4,298.7 H732.4 Q736.4,298.7 736.4,302.7 V440.0 Z" fill="#3987e5"/>
+<text x="724.4" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#c3c2b7" text-anchor="middle">£389k</text>
+<path d="M814.0,440.0 V318.4 Q814.0,314.4 818.0,314.4 H834.0 Q838.0,314.4 838.0,318.4 V440.0 Z" fill="#3987e5"/>
+<text x="826.0" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#c3c2b7" text-anchor="middle">£451k</text>
+<path d="M915.6,440.0 V337.4 Q915.6,333.4 919.6,333.4 H935.6 Q939.6,333.4 939.6,337.4 V440.0 Z" fill="#3987e5"/>
+<text x="927.6" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#c3c2b7" text-anchor="middle">£550k</text>
+<path d="M1017.2,440.0 V376.6 Q1017.2,372.6 1021.2,372.6 H1037.2 Q1041.2,372.6 1041.2,376.6 V440.0 Z" fill="#3987e5"/>
+<text x="1029.2" y="362.6" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="600" fill="#f3f2ee" text-anchor="middle">£2.93</text>
+<text x="1029.2" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#c3c2b7" text-anchor="middle">£924k</text>
+<line x1="64.0" y1="440.0" x2="1080.0" y2="440.0" stroke="#3d3d3a" stroke-width="1.0"/>
+<text x="114.8" y="482.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#9a988f" text-anchor="middle">cheapest tenth</text>
+<text x="1029.2" y="482.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#9a988f" text-anchor="middle">dearest tenth</text>
+<text x="64.0" y="536.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="12" font-weight="400" fill="#9a988f" text-anchor="start">Average home value under each column. The cheapest tenth pays 4.4 times as much per pound of value as the dearest.</text>
+</svg>
