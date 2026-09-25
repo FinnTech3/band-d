@@ -24,7 +24,7 @@ export function Checks({ summary }: { summary: Summary }) {
     {
       check: by["homes by band"],
       title: "Two government systems count the same homes",
-      text: `The valuation list and the councils' tax base agree on the number of homes to within 1% for ${pct(n("homes by band", "share_within"))} of councils.`,
+      text: `The valuation list and the councils' tax base agree on the number of homes to within 1% for ${pct(n("homes by band", "share_within"))} of councils, and on the share in each band to within ${n("homes by band", "median_band_share_gap").toFixed(2)} of a point for the typical one.`,
     },
     {
       check: by["house prices"],
