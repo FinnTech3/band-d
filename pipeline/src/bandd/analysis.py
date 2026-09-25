@@ -112,8 +112,12 @@ def national_rate(areas: list[Area]) -> float:
 
 def by_value_decile(areas: list[Area], groups: int = 10) -> list[dict]:
     """Areas sorted by typical home value, cut into groups holding equal numbers
-    of homes, each summarised as total tax over total value."""
-    ordered = sorted(areas, key=lambda a: a.median_price)
+    of homes, each summarised as total tax over total value.
+
+    Areas with the same median are ordered by code, so which group an area on
+    a boundary lands in does not depend on the order the source file lists them.
+    """
+    ordered = sorted(areas, key=lambda a: (a.median_price, a.code))
     total = sum(a.homes for a in ordered)
     buckets: list[list[Area]] = [[] for _ in range(groups)]
     acc = 0.0

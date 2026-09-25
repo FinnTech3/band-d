@@ -18,11 +18,11 @@
 <text x="54.0" y="168.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#6b6a65" text-anchor="end">6x</text>
 <line x1="64.0" y1="118.0" x2="920.0" y2="118.0" stroke="#e6e4dc" stroke-width="1.0"/>
 <text x="54.0" y="122.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#6b6a65" text-anchor="end">7x</text>
-<polyline points="64.0,394.0 159.1,375.8 254.2,363.8 349.3,351.9 444.4,339.0 539.6,325.0 634.7,309.1 729.8,288.1 824.9,255.0 920.0,129.1" fill="none" stroke="#2a78d6" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
-<circle cx="920.0" cy="129.1" r="7.0" fill="#fbfaf7"/>
-<circle cx="920.0" cy="129.1" r="5.0" fill="#2a78d6"/>
-<text x="934.0" y="134.1" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#111110" text-anchor="start">home value  6.76x</text>
-<polyline points="64.0,394.0 159.1,391.1 254.2,388.5 349.3,385.5 444.4,382.4 539.6,379.8 634.7,377.7 729.8,375.7 824.9,373.6 920.0,369.4" fill="none" stroke="#e34948" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="64.0,394.0 159.1,375.8 254.2,363.7 349.3,351.9 444.4,339.0 539.6,325.0 634.7,309.0 729.8,288.1 824.9,254.9 920.0,129.0" fill="none" stroke="#2a78d6" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="920.0" cy="129.0" r="7.0" fill="#fbfaf7"/>
+<circle cx="920.0" cy="129.0" r="5.0" fill="#2a78d6"/>
+<text x="934.0" y="134.0" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#111110" text-anchor="start">home value  6.76x</text>
+<polyline points="64.0,394.0 159.1,391.1 254.2,388.4 349.3,385.5 444.4,382.4 539.6,379.9 634.7,377.6 729.8,375.7 824.9,373.6 920.0,369.4" fill="none" stroke="#e34948" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
 <circle cx="920.0" cy="369.4" r="7.0" fill="#fbfaf7"/>
 <circle cx="920.0" cy="369.4" r="5.0" fill="#e34948"/>
 <text x="934.0" y="374.4" font-family="'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#111110" text-anchor="start">council tax bill  1.53x</text>

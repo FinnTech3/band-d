@@ -8,24 +8,24 @@
 <text x="54.0" y="329.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#6b6a65" text-anchor="end">£5</text>
 <line x1="64.0" y1="210.0" x2="1080.0" y2="210.0" stroke="#e6e4dc" stroke-width="1.0"/>
 <text x="54.0" y="214.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#6b6a65" text-anchor="end">£10</text>
-<path d="M102.8,440.0 V147.2 Q102.8,143.2 106.8,143.2 H122.8 Q126.8,143.2 126.8,147.2 V440.0 Z" fill="#2a78d6"/>
-<text x="114.8" y="133.2" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="600" fill="#111110" text-anchor="middle">£12.91</text>
+<path d="M102.8,440.0 V147.1 Q102.8,143.1 106.8,143.1 H122.8 Q126.8,143.1 126.8,147.1 V440.0 Z" fill="#2a78d6"/>
+<text x="114.8" y="133.1" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="600" fill="#111110" text-anchor="middle">£12.91</text>
 <text x="114.8" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">£137k</text>
 <path d="M204.4,440.0 V218.0 Q204.4,214.0 208.4,214.0 H224.4 Q228.4,214.0 228.4,218.0 V440.0 Z" fill="#2a78d6"/>
 <text x="216.4" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">£191k</text>
-<path d="M306.0,440.0 V243.4 Q306.0,239.4 310.0,239.4 H326.0 Q330.0,239.4 330.0,243.4 V440.0 Z" fill="#2a78d6"/>
-<text x="318.0" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">£226k</text>
+<path d="M306.0,440.0 V243.3 Q306.0,239.3 310.0,239.3 H326.0 Q330.0,239.3 330.0,243.3 V440.0 Z" fill="#2a78d6"/>
+<text x="318.0" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">£227k</text>
 <path d="M407.6,440.0 V260.6 Q407.6,256.6 411.6,256.6 H427.6 Q431.6,256.6 431.6,260.6 V440.0 Z" fill="#2a78d6"/>
 <text x="419.6" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">£262k</text>
 <path d="M509.2,440.0 V274.6 Q509.2,270.6 513.2,270.6 H529.2 Q533.2,270.6 533.2,274.6 V440.0 Z" fill="#2a78d6"/>
 <text x="521.2" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">£300k</text>
-<path d="M610.8,440.0 V288.6 Q610.8,284.6 614.8,284.6 H630.8 Q634.8,284.6 634.8,288.6 V440.0 Z" fill="#2a78d6"/>
-<text x="622.8" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">£342k</text>
-<path d="M712.4,440.0 V302.7 Q712.4,298.7 716.4,298.7 H732.4 Q736.4,298.7 736.4,302.7 V440.0 Z" fill="#2a78d6"/>
+<path d="M610.8,440.0 V288.7 Q610.8,284.7 614.8,284.7 H630.8 Q634.8,284.7 634.8,288.7 V440.0 Z" fill="#2a78d6"/>
+<text x="622.8" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">£341k</text>
+<path d="M712.4,440.0 V302.6 Q712.4,298.6 716.4,298.6 H732.4 Q736.4,298.6 736.4,302.6 V440.0 Z" fill="#2a78d6"/>
 <text x="724.4" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">£389k</text>
-<path d="M814.0,440.0 V318.4 Q814.0,314.4 818.0,314.4 H834.0 Q838.0,314.4 838.0,318.4 V440.0 Z" fill="#2a78d6"/>
+<path d="M814.0,440.0 V318.3 Q814.0,314.3 818.0,314.3 H834.0 Q838.0,314.3 838.0,318.3 V440.0 Z" fill="#2a78d6"/>
 <text x="826.0" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">£451k</text>
-<path d="M915.6,440.0 V337.4 Q915.6,333.4 919.6,333.4 H935.6 Q939.6,333.4 939.6,337.4 V440.0 Z" fill="#2a78d6"/>
+<path d="M915.6,440.0 V337.5 Q915.6,333.5 919.6,333.5 H935.6 Q939.6,333.5 939.6,337.5 V440.0 Z" fill="#2a78d6"/>
 <text x="927.6" y="462.0" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="400" fill="#52514e" text-anchor="middle">£550k</text>
 <path d="M1017.2,440.0 V376.6 Q1017.2,372.6 1021.2,372.6 H1037.2 Q1041.2,372.6 1041.2,376.6 V440.0 Z" fill="#2a78d6"/>
 <text x="1029.2" y="362.6" font-family="'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="600" fill="#111110" text-anchor="middle">£2.93</text>
