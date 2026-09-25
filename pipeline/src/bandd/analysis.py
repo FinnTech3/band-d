@@ -32,6 +32,20 @@ from .bands import BANDS, NINTHS
 from .prices import mean_by_area, median_by_area
 from .sources import AreaStock, CouncilCharge
 
+
+def add_up(xs) -> float:
+    """Add up left to right, one at a time, as the app does.
+
+    Python 3.12's sum() compensates for rounding and 3.11's does not, so the
+    last digit of a sum would otherwise depend on the Python version, and the
+    app could no longer match the pipeline to the bit.
+    """
+    out = 0.0
+    for x in xs:
+        out += x
+    return out
+
+
 SUPPRESSED_AS = 2.5
 
 
@@ -72,13 +86,13 @@ def build_areas(stock: dict[str, AreaStock], authority: dict[str, str],
         if not code.startswith("E01"):
             continue
         counts = {b: st.counts[b] + (suppressed_as if b in st.suppressed else 0.0) for b in BANDS}
-        homes = sum(counts.values())
+        homes = add_up(counts.values())
         if code not in means:
             skipped["too_few_sales"] += 1
             skipped["too_few_sales_homes"] += homes
             continue
         council = charges[authority[code]]
-        mean_ratio = sum(counts[b] * NINTHS[b] / 9 for b in BANDS) / homes
+        mean_ratio = add_up(counts[b] * NINTHS[b] / 9 for b in BANDS) / homes
         out.append(Area(
             code=code, name=st.name, council=council.code, council_name=council.name,
             homes=homes, band_counts=counts, band_d=council.band_d_area,
@@ -94,7 +108,7 @@ def build_areas(stock: dict[str, AreaStock], authority: dict[str, str],
 def weighted_quantile(values: list[tuple[float, float]], q: float) -> float:
     """Quantile of (value, weight) pairs, weighting each area by its homes."""
     ordered = sorted(values)
-    total = sum(w for _, w in ordered)
+    total = add_up(w for _, w in ordered)
     target, acc = q * total, 0.0
     for v, w in ordered:
         acc += w
@@ -105,8 +119,8 @@ def weighted_quantile(values: list[tuple[float, float]], q: float) -> float:
 
 def national_rate(areas: list[Area]) -> float:
     """All council tax in the analysed areas over all housing value, per £1,000."""
-    tax = sum(a.bill * a.homes for a in areas)
-    value = sum(a.mean_price * a.homes for a in areas)
+    tax = add_up(a.bill * a.homes for a in areas)
+    value = add_up(a.mean_price * a.homes for a in areas)
     return 1000 * tax / value
 
 
@@ -118,7 +132,7 @@ def by_value_decile(areas: list[Area], groups: int = 10) -> list[dict]:
     a boundary lands in does not depend on the order the source file lists them.
     """
     ordered = sorted(areas, key=lambda a: (a.median_price, a.code))
-    total = sum(a.homes for a in ordered)
+    total = add_up(a.homes for a in ordered)
     buckets: list[list[Area]] = [[] for _ in range(groups)]
     acc = 0.0
     for a in ordered:
@@ -126,9 +140,9 @@ def by_value_decile(areas: list[Area], groups: int = 10) -> list[dict]:
         acc += a.homes
     out = []
     for i, b in enumerate(buckets, 1):
-        homes = sum(a.homes for a in b)
-        tax = sum(a.bill * a.homes for a in b)
-        value = sum(a.mean_price * a.homes for a in b)
+        homes = add_up(a.homes for a in b)
+        tax = add_up(a.bill * a.homes for a in b)
+        value = add_up(a.mean_price * a.homes for a in b)
         out.append({
             "decile": i, "areas": len(b), "homes": homes,
             "average_bill": tax / homes, "average_value": value / homes,
@@ -147,17 +161,17 @@ def decompose(areas: list[Area]) -> dict[str, float]:
     and the three shares add to one. Weighted by homes.
     """
     w = [a.homes for a in areas]
-    W = sum(w)
+    W = add_up(w)
     cols = {
         "rate": [math.log(a.rate) for a in areas],
         "band_d": [math.log(a.band_d) for a in areas],
         "band_mix": [math.log(a.mean_ratio) for a in areas],
         "value": [-math.log(a.median_price) for a in areas],
     }
-    means = {k: sum(x * wi for x, wi in zip(v, w)) / W for k, v in cols.items()}
+    means = {k: add_up(x * wi for x, wi in zip(v, w)) / W for k, v in cols.items()}
 
     def cov(x: str, y: str) -> float:
-        return sum(wi * (a - means[x]) * (b - means[y]) for a, b, wi in zip(cols[x], cols[y], w)) / W
+        return add_up(wi * (a - means[x]) * (b - means[y]) for a, b, wi in zip(cols[x], cols[y], w)) / W
 
     var = cov("rate", "rate")
     return {
@@ -193,8 +207,8 @@ def proportional(areas: list[Area]) -> dict:
         groups[min(9, int(10 * acc / homes))].append((change, h))
         acc += h
     for i, g in enumerate(groups, 1):
-        hh = sum(h for _, h in g)
-        by_decile.append({"decile": i, "average_change": sum(c * h for c, h in g) / hh})
+        hh = add_up(h for _, h in g)
+        by_decile.append({"decile": i, "average_change": add_up(c * h for c, h in g) / hh})
     return {"rate_per_1000": rate * 1000, "share_paying_less": lower / homes, "by_decile": by_decile}
 
 
