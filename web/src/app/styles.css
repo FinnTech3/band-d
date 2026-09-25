@@ -441,6 +441,14 @@ h1 {
   color: var(--muted);
 }
 
+/* The loaded answer is about this tall; holding the space stops the page
+   jumping when the data arrives. */
+@media (max-width: 859px) {
+  .answer.skeleton {
+    min-height: 600px;
+  }
+}
+
 /* sections */
 
 section {
@@ -677,4 +685,9 @@ footer p {
     transition: none !important;
     animation: none !important;
   }
+}
+
+.chip[disabled] {
+  cursor: default;
+  opacity: 0.6;
 }

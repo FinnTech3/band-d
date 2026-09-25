@@ -10,7 +10,25 @@ export function ShareCard({ content, file }: Props) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const [status, setStatus] = useState("");
 
+  // A 1080 by 1350 canvas is too much work for the first screen, so it is
+  // drawn only once it is about to scroll into view.
+  const [near, setNear] = useState(false);
   useEffect(() => {
+    const el = canvas.current;
+    if (!el || near) return;
+    if (typeof IntersectionObserver !== "function") {
+      setNear(true);
+      return;
+    }
+    const io = new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && setNear(true), {
+      rootMargin: "400px",
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [near]);
+
+  useEffect(() => {
+    if (!near) return;
     let live = true;
     const draw = () => {
       if (live && canvas.current) drawCard(canvas.current, content);
@@ -20,11 +38,13 @@ export function ShareCard({ content, file }: Props) {
     return () => {
       live = false;
     };
-  }, [content]);
+  }, [content, near]);
 
   async function save() {
     const c = canvas.current;
     if (!c) return;
+    await fontsReady();
+    drawCard(c, content);
     const blob = await new Promise<Blob | null>((resolve) => c.toBlob(resolve, "image/png"));
     if (!blob) {
       setStatus("This browser could not make the image.");

@@ -219,29 +219,27 @@ export function App() {
             <p id="pc-hint" className={hint?.problem ? "hint problem" : "hint"} role="status">
               {hint?.text ?? "Sent only to postcodes.io, an open lookup, to find your area. Never kept."}
             </p>
-            {data && (
-              <div className="choices">
-                <span>Or try</span>
-                {(
-                  [
-                    [data.england.highest, "Highest"],
-                    [data.england.middle, "Middle"],
-                    [data.england.lowest, "Lowest"],
-                  ] as const
-                ).map(([area, label]) => (
+            <div className="choices">
+              <span>Or try</span>
+              {(["Highest", "Middle", "Lowest"] as const).map((label) => {
+                const area = data
+                  ? { Highest: data.england.highest, Middle: data.england.middle, Lowest: data.england.lowest }[label]
+                  : null;
+                return (
                   <button
-                    key={area.code}
+                    key={label}
                     type="button"
                     className="chip"
-                    aria-pressed={shown?.kind === "area" && shown.area.code === area.code}
-                    aria-label={`${label} rate in England: ${area.name}`}
-                    onClick={() => show({ kind: "area", area, how: "example" })}
+                    disabled={!area}
+                    aria-pressed={!!area && shown?.kind === "area" && shown.area.code === area.code}
+                    aria-label={area ? `${label} rate in England: ${area.name}` : label}
+                    onClick={() => area && show({ kind: "area", area, how: "example" })}
                   >
                     {label}
                   </button>
-                ))}
-              </div>
-            )}
+                );
+              })}
+            </div>
           </div>
 
           <div ref={answer} className={data && shown ? "answer" : "answer skeleton"} aria-live="polite">
@@ -389,12 +387,10 @@ function Sections({ data, shown }: { data: Data; shown: Shown }) {
   const place = isArea ? shown.area.name : shown.council.name;
   const label = isArea ? (shown.how === "postcode" ? "You" : shown.area.name) : shown.council.name;
 
-  const homesByBand = useMemo(() => {
-    if (isArea) return shown.area.homesByBand;
-    const sum = new Array<number>(8).fill(0);
-    for (const a of e.areas) if (a.council.code === council.code) a.homesByBand.forEach((h, i) => (sum[i]! += h));
-    return sum;
-  }, [e, isArea, shown, council.code]);
+  const homesByBand = useMemo(
+    () => (isArea ? shown.area.homesByBand : e.homesByBandIn(council.code)),
+    [e, isArea, shown, council.code],
+  );
 
   const card = useMemo(() => {
     const bins = e.bins(0.25, 60, 40);

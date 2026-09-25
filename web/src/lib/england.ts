@@ -2,6 +2,10 @@
 // same arithmetic as pipeline/src/bandd/analysis.py. The operations are done
 // in the same order as there, so the rates come out identical to the last
 // bit, which src/lib/england.test.ts checks against the pipeline's summary.
+//
+// A phone has to do this for 33,755 areas before it can answer, so the rates
+// are worked out in one pass into flat arrays, and an area only becomes an
+// object when something asks for it.
 
 export const BANDS = ["A", "B", "C", "D", "E", "F", "G", "H"] as const;
 export type Band = (typeof BANDS)[number];
@@ -55,24 +59,33 @@ export function areaCode(n: number): string {
   return "E" + String(n).padStart(8, "0");
 }
 
+function homesIn(stored: number): number {
+  return stored === -1 ? SUPPRESSED_AS : 10 * stored;
+}
+
+/** Homes and average band ratio, summed band by band as analysis.build_areas does. */
+function mix(stored: number[]): [homes: number, ratio: number] {
+  let homes = 0;
+  let weighted = 0;
+  for (let b = 0; b < 8; b++) {
+    const h = homesIn(stored[b]!);
+    homes += h;
+    weighted += (h * NINTHS[b]!) / 9;
+  }
+  return [homes, weighted / homes];
+}
+
 export function decodeArea(file: AreasFile, i: number, code: string): Area {
   const [cCode, cName, bandD] = file.councils[file.council[i]!]!;
   const stored = file.bands[i]!;
-  const homesByBand = stored.map((n) => (n === -1 ? SUPPRESSED_AS : 10 * n));
-  let homes = 0;
-  for (const h of homesByBand) homes += h;
-  let weighted = 0;
-  homesByBand.forEach((h, b) => {
-    weighted += (h * NINTHS[b]!) / 9;
-  });
-  const ratio = weighted / homes;
+  const [homes, ratio] = mix(stored);
   const bill = bandD * ratio;
   const median = file.median[i] ?? null;
   return {
     code,
     name: `${file.prefixes[file.prefix[i]!]} ${file.suffix[i]}`,
     council: { code: cCode, name: cName, bandD },
-    homesByBand,
+    homesByBand: stored.map(homesIn),
     suppressed: stored.map((n) => n === -1),
     homes,
     ratio,
@@ -88,40 +101,103 @@ export function isValued(a: Area): a is Valued {
 }
 
 export class England {
-  readonly areas: Area[];
   readonly councils: Council[];
-  /** Areas with at least five 2025 sales, lowest rate first. */
-  readonly valued: Valued[];
+  /** Homes in the areas with at least five 2025 sales. */
   readonly homes: number;
-  private readonly cumulative: number[];
+  /** How many areas have at least five 2025 sales. */
+  readonly valuedCount: number;
+
+  private readonly file: AreasFile;
+  private readonly codes: Int32Array;
+  private readonly rates: Float64Array;
+  private readonly homesOf: Float64Array;
+  /** Indices of valued areas, lowest rate first; ties by fewer homes, as the pipeline sorts. */
+  private readonly order: Int32Array;
+  private readonly cumulative: Float64Array;
+  private readonly cache = new Map<number, Area>();
   private deciles: Map<string, number> | undefined;
 
   constructor(file: AreasFile) {
-    let n = 0;
-    this.areas = file.code_step.map((step, i) => {
-      n += step;
-      return decodeArea(file, i, areaCode(n));
-    });
-    this.councils = file.councils.map(([code, name, bandD]) => ({ code, name, bandD }));
-    this.valued = this.areas.filter(isValued).sort((a, b) => a.rate - b.rate || a.homes - b.homes);
-    this.cumulative = [];
+    this.file = file;
+    const n = file.code_step.length;
+    this.codes = new Int32Array(n);
+    this.rates = new Float64Array(n);
+    this.homesOf = new Float64Array(n);
+    let code = 0;
+    let valued = 0;
+    for (let i = 0; i < n; i++) {
+      code += file.code_step[i]!;
+      this.codes[i] = code;
+      const [homes, ratio] = mix(file.bands[i]!);
+      this.homesOf[i] = homes;
+      const median = file.median[i];
+      if (median == null) {
+        this.rates[i] = NaN;
+      } else {
+        const bill = file.councils[file.council[i]!]![2] * ratio;
+        this.rates[i] = (1000 * bill) / median;
+        valued++;
+      }
+    }
+    this.valuedCount = valued;
+
+    const order = new Int32Array(valued);
+    for (let i = 0, k = 0; i < n; i++) if (!Number.isNaN(this.rates[i]!)) order[k++] = i;
+    const r = this.rates;
+    const h = this.homesOf;
+    order.sort((a, b) => r[a]! - r[b]! || h[a]! - h[b]!);
+    this.order = order;
+
+    this.cumulative = new Float64Array(valued);
     let acc = 0;
-    for (const a of this.valued) {
-      acc += a.homes;
-      this.cumulative.push(acc);
+    for (let k = 0; k < valued; k++) {
+      acc += h[order[k]!]!;
+      this.cumulative[k] = acc;
     }
     this.homes = acc;
+    this.councils = file.councils.map(([code, name, bandD]) => ({ code, name, bandD }));
+  }
+
+  get size(): number {
+    return this.codes.length;
+  }
+
+  /** The area stored at position i, in code order. */
+  at(i: number): Area {
+    let a = this.cache.get(i);
+    if (!a) {
+      a = decodeArea(this.file, i, areaCode(this.codes[i]!));
+      this.cache.set(i, a);
+    }
+    return a;
+  }
+
+  /** The k-th valued area, lowest rate first. */
+  valuedAt(k: number): Valued {
+    return this.at(this.order[k]!) as Valued;
+  }
+
+  /** Every valued area, lowest rate first. Builds every object: for tests and small councils, not the first paint. */
+  get valued(): Valued[] {
+    return Array.from(this.order, (i) => this.at(i) as Valued);
+  }
+
+  /** Every area in code order. Builds every object, as above. */
+  get areas(): Area[] {
+    return Array.from({ length: this.size }, (_, i) => this.at(i));
   }
 
   /** Binary search: codes are stored in order. */
   find(code: string): Area | undefined {
+    if (!/^E\d{8}$/.test(code)) return undefined;
+    const target = Number(code.slice(1));
     let lo = 0;
-    let hi = this.areas.length - 1;
+    let hi = this.codes.length - 1;
     while (lo <= hi) {
       const mid = (lo + hi) >> 1;
-      const c = this.areas[mid]!.code;
-      if (c === code) return this.areas[mid];
-      if (c < code) lo = mid + 1;
+      const c = this.codes[mid]!;
+      if (c === target) return this.at(mid);
+      if (c < target) lo = mid + 1;
       else hi = mid - 1;
     }
     return undefined;
@@ -134,19 +210,19 @@ export class England {
   /** Quantile weighted by homes, as analysis.weighted_quantile. */
   quantile(q: number): number {
     const target = q * this.homes;
-    for (let i = 0; i < this.valued.length; i++) {
-      if (this.cumulative[i]! >= target) return this.valued[i]!.rate;
+    for (let k = 0; k < this.valuedCount; k++) {
+      if (this.cumulative[k]! >= target) return this.rates[this.order[k]!]!;
     }
-    return this.valued[this.valued.length - 1]!.rate;
+    return this.rates[this.order[this.valuedCount - 1]!]!;
   }
 
   /** Share of England's homes (in valued areas) paying a strictly lower rate. */
   shareBelow(rate: number): number {
     let lo = 0;
-    let hi = this.valued.length;
+    let hi = this.valuedCount;
     while (lo < hi) {
       const mid = (lo + hi) >> 1;
-      if (this.valued[mid]!.rate < rate) lo = mid + 1;
+      if (this.rates[this.order[mid]!]! < rate) lo = mid + 1;
       else hi = mid;
     }
     return lo === 0 ? 0 : this.cumulative[lo - 1]! / this.homes;
@@ -155,10 +231,10 @@ export class England {
   /** Share of England's homes (in valued areas) paying a strictly higher rate. */
   shareAbove(rate: number): number {
     let lo = 0;
-    let hi = this.valued.length;
+    let hi = this.valuedCount;
     while (lo < hi) {
       const mid = (lo + hi) >> 1;
-      if (this.valued[mid]!.rate <= rate) lo = mid + 1;
+      if (this.rates[this.order[mid]!]! <= rate) lo = mid + 1;
       else hi = mid;
     }
     return lo === 0 ? 1 : 1 - this.cumulative[lo - 1]! / this.homes;
@@ -166,47 +242,64 @@ export class England {
 
   /**
    * Which tenth of England's homes by value an area falls in, 1 to 10, cut as
-   * analysis.by_value_decile cuts them: areas in order of typical price, each
-   * placed by the homes that come before it.
+   * analysis.by_value_decile cuts them: areas in order of typical price, ties
+   * by code, each placed by the homes that come before it.
    */
   valueDecile(code: string): number | undefined {
     if (!this.deciles) {
       this.deciles = new Map();
-      const byPrice = [...this.valued].sort((a, b) => a.median - b.median || (a.code < b.code ? -1 : 1));
+      const med = this.file.median;
+      const byPrice = Int32Array.from(this.order).sort((a, b) => med[a]! - med[b]! || a - b);
       let acc = 0;
-      for (const a of byPrice) {
-        this.deciles.set(a.code, Math.min(9, Math.floor((10 * acc) / this.homes)) + 1);
-        acc += a.homes;
+      for (const i of byPrice) {
+        this.deciles.set(areaCode(this.codes[i]!), Math.min(9, Math.floor((10 * acc) / this.homes)) + 1);
+        acc += this.homesOf[i]!;
       }
     }
     return this.deciles.get(code);
   }
 
   get highest(): Valued {
-    return this.valued[this.valued.length - 1]!;
+    return this.valuedAt(this.valuedCount - 1);
   }
 
   get lowest(): Valued {
-    return this.valued[0]!;
+    return this.valuedAt(0);
   }
 
   /** The area at the median, weighted by homes: the middle of England. */
   get middle(): Valued {
     const target = 0.5 * this.homes;
-    const i = this.cumulative.findIndex((c) => c >= target);
-    return this.valued[i]!;
+    let k = 0;
+    while (this.cumulative[k]! < target) k++;
+    return this.valuedAt(k);
   }
 
   /** Homes in each of `n` equal steps of log rate between `lo` and `hi`. */
   bins(lo: number, hi: number, n: number): number[] {
     const out = new Array<number>(n).fill(0);
-    for (const a of this.valued) out[binOf(a.rate, lo, hi, n)]! += a.homes;
+    for (const i of this.order) out[binOf(this.rates[i]!, lo, hi, n)]! += this.homesOf[i]!;
     return out;
   }
 
-  /** The valued areas of one council. */
+  /** The valued areas of one council, lowest rate first. */
   inCouncil(code: string): Valued[] {
-    return this.valued.filter((a) => a.council.code === code);
+    const c = this.file.councils.findIndex(([cc]) => cc === code);
+    const out: Valued[] = [];
+    for (const i of this.order) if (this.file.council[i] === c) out.push(this.at(i) as Valued);
+    return out;
+  }
+
+  /** Homes in each band across a whole council, valued or not. */
+  homesByBandIn(code: string): number[] {
+    const c = this.file.councils.findIndex(([cc]) => cc === code);
+    const sum = new Array<number>(8).fill(0);
+    this.file.council.forEach((ci, i) => {
+      if (ci !== c) return;
+      const stored = this.file.bands[i]!;
+      for (let b = 0; b < 8; b++) sum[b]! += homesIn(stored[b]!);
+    });
+    return sum;
   }
 }
 

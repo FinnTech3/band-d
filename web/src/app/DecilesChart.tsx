@@ -48,7 +48,7 @@ export function DecilesChart({ deciles, you }: Props) {
               <path className={lit ? "c-you" : "c-rest"} d={column(cx - w / 2, w, B, y(d.rate), 4)} />
               {labelled && (
                 <text className="c-value" x={cx} y={y(d.rate) - 8} textAnchor="middle">
-                  {gbp(d.rate, 2)}
+                  {W < 480 ? d.rate.toFixed(2) : gbp(d.rate, 2)}
                 </text>
               )}
               {lit && (
