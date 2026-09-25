@@ -88,6 +88,7 @@ def test_homes_by_band_twin_catches_a_misaligned_column():
         moved = {bands[i]: s.counts[bands[i - 1]] if i else 0.0 for i in range(len(bands))}
         shifted[code] = dataclasses.replace(s, counts=moved)
     r = verify.check_homes_by_band(shifted, tax_base())
+    assert not r.passed
     assert r.detail["median_band_share_gap"] > 5
 
 

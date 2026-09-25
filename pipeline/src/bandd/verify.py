@@ -103,13 +103,16 @@ RECODED = {"E08000038": "E08000016", "E08000039": "E08000019"}
 
 
 def check_homes_by_band(voa: dict[str, AreaStock], tax_base: dict[str, TaxBase],
-                        tolerance_pct: float = 1.0, share_required: float = 0.95) -> Result:
+                        tolerance_pct: float = 1.0, share_required: float = 0.95,
+                        band_share_points: float = 1.0) -> Result:
     """Compare the VOA's count of homes with the councils' own, council by council.
 
     The VOA rounds to tens and counts on 31 March 2025; the tax base returns are
     exact and count on 6 October 2025, so new homes built in between appear in
     one and not the other. The check is that almost every council agrees to
-    within one per cent on total homes and on its band mix.
+    within one per cent on total homes, and that for the typical council no
+    band's share of homes differs by more than a percentage point. Totals alone
+    would not notice bands read into the wrong columns; the band mix would.
     """
     gaps, mix_gaps = [], []
     for code, tb in tax_base.items():
@@ -125,7 +128,7 @@ def check_homes_by_band(voa: dict[str, AreaStock], tax_base: dict[str, TaxBase],
     within = sum(1 for g in gaps if g <= tolerance_pct) / len(gaps)
     return Result(
         "homes by band",
-        within >= share_required,
+        within >= share_required and statistics.median(mix_gaps) <= band_share_points,
         f"{len(gaps)} councils compared; {within:.1%} agree on total homes to within {tolerance_pct}%, "
         f"median gap {statistics.median(gaps):.2f}%, median largest band-share gap "
         f"{statistics.median(mix_gaps):.2f} points",
