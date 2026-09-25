@@ -1,0 +1,51 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install pytest
+      - name: Checks, twins and analysis
+        run: python -m pytest pipeline/tests -q
+      - name: The report prints, which it only does when every check passes
+        run: PYTHONPATH=pipeline/src python -m bandd.report
+      - name: Figures match a fresh render
+        run: |
+          python scripts/make_figures.py
+          git diff --exit-code docs/figures
+      - name: The app's data matches a fresh build
+        run: |
+          PYTHONPATH=pipeline/src python -m bandd.build
+          git diff --exit-code data/built
+      - name: House style
+        run: python scripts/check_style.py .
+
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - name: The app's arithmetic against the pipeline's
+        run: npm test
+      - name: Typecheck, build and size budget
+        run: npm run build
