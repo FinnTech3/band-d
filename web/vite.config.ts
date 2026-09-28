@@ -2,12 +2,15 @@ import react from "@vitejs/plugin-react";
 import type { Plugin } from "vite";
 import { defineConfig } from "vitest/config";
 
-// Preload the three faces the first screen is set in, so text does not reflow
-// when they arrive after the fallback.
+// Preload the faces the first screen is set in, so text does not reflow when
+// they arrive after the fallback: the title, the note, the intro and the
+// labels on the map.
 const FIRST_SCREEN_FONTS = [
+  "ibm-plex-serif-latin-600-normal",
+  "ibm-plex-serif-latin-600-italic",
+  "ibm-plex-serif-latin-400-italic",
   "ibm-plex-sans-latin-400-normal",
-  "ibm-plex-sans-condensed-latin-600-normal",
-  "ibm-plex-sans-condensed-latin-700-normal",
+  "ibm-plex-mono-latin-400-normal",
 ];
 
 function preloadFonts(): Plugin {

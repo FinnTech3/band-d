@@ -3,6 +3,10 @@ import "@fontsource/ibm-plex-sans/latin-600.css";
 import "@fontsource/ibm-plex-sans-condensed/latin-600.css";
 import "@fontsource/ibm-plex-sans-condensed/latin-700.css";
 import "@fontsource/ibm-plex-mono/latin-400.css";
+import "@fontsource/ibm-plex-serif/latin-400.css";
+import "@fontsource/ibm-plex-serif/latin-400-italic.css";
+import "@fontsource/ibm-plex-serif/latin-600.css";
+import "@fontsource/ibm-plex-serif/latin-600-italic.css";
 import "./app/styles.css";
 
 import { StrictMode } from "react";

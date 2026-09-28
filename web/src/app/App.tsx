@@ -1,7 +1,9 @@
 import { type FormEvent, useEffect, useMemo, useRef, useState } from "react";
-import { type Area, type AreasFile, type Council, England, type Valued, binOf, isValued } from "../lib/england";
+import { type Area, type AreasFile, type Council, England, type Valued, isValued } from "../lib/england";
 import { gbp } from "../lib/format";
+import { type Points, type PointsFile, decodePoints } from "../lib/points";
 import { lookup, normalise, pretty } from "../lib/postcode";
+import { lean } from "../lib/shade";
 import { comparison, standing } from "../lib/story";
 import type { CouncilSummary, Summary } from "../lib/summary";
 import { type Place, readPlace, writePlace } from "../lib/url";
@@ -9,20 +11,26 @@ import { BandsChart } from "./BandsChart";
 import { Checks } from "./Checks";
 import { DecilesChart } from "./DecilesChart";
 import { Distribution } from "./Distribution";
+import { EnglandMap, type Focus } from "./EnglandMap";
+import { Revalue } from "./Revalue";
 import { ShareCard } from "./ShareCard";
 import { useCountUp } from "./hooks";
+import { Monogram } from "./series/Monogram";
+import { Note } from "./series/Note";
+import { SeriesStrip } from "./series/SeriesStrip";
+import { PORTFOLIO } from "./series/series";
 
 interface Data {
   england: England;
+  points: Points;
   summary: Summary;
 }
 
 type Shown =
-  | { kind: "area"; area: Valued; how: "postcode" | "example" | "link" }
+  | { kind: "area"; area: Valued; how: "postcode" | "example" | "start" | "link" | "map" }
   | { kind: "council"; council: Council; stats: CouncilSummary; reason: string | null; from?: string };
 
 const REPO = "https://github.com/FinnTech3/band-d";
-const PORTFOLIO = "https://finn-lakin-portfolio.netlify.app/";
 
 const ELSEWHERE: Record<string, string> = {
   Wales: "Wales revalued its homes in 2003 and has nine bands, so its bills cannot be set against England's.",
@@ -32,11 +40,12 @@ const ELSEWHERE: Record<string, string> = {
 
 async function load(): Promise<Data> {
   const base = import.meta.env.BASE_URL;
-  const [areas, summary] = await Promise.all([
+  const [areas, points, summary] = await Promise.all([
     fetch(`${base}data/areas.json`).then((r) => r.json() as Promise<AreasFile>),
+    fetch(`${base}data/points.json`).then((r) => r.json() as Promise<PointsFile>),
     fetch(`${base}data/summary.json`).then((r) => r.json() as Promise<Summary>),
   ]);
-  return { england: new England(areas), summary };
+  return { england: new England(areas), points: decodePoints(points), summary };
 }
 
 function councilView(data: Data, council: Council, reason: string | null, from?: Area): Shown | null {
@@ -58,7 +67,7 @@ function fromPlace(data: Data, place: Place | null): Shown {
     const v = c && councilView(data, c, null);
     if (v) return v;
   }
-  return { kind: "area", area: data.england.highest, how: "example" };
+  return { kind: "area", area: data.england.highest, how: "start" };
 }
 
 function tooFewSales(a: Area): string {
@@ -92,6 +101,14 @@ export function App() {
   const [busy, setBusy] = useState(false);
   const answer = useRef<HTMLDivElement>(null);
   const theme = useTheme();
+  // Everything below the first screen is rendered a moment after it, so the
+  // map and the answer are not kept waiting for charts nobody can see yet.
+  const [below, setBelow] = useState(false);
+  useEffect(() => {
+    if (!data || below) return;
+    const t = setTimeout(() => setBelow(true), 50);
+    return () => clearTimeout(t);
+  }, [data, below]);
 
   useEffect(() => {
     load()
@@ -109,17 +126,27 @@ export function App() {
         ? shown.from
           ? { kind: "area", code: shown.from }
           : { kind: "council", code: shown.council.code }
-        : shown.how === "example" && shown.area.code === data?.england.highest.code
+        : shown.how === "start"
           ? null
           : { kind: "area", code: shown.area.code };
     history.replaceState(null, "", `${location.pathname}${writePlace(place)}`);
-  }, [shown, data]);
+  }, [shown]);
 
-  function show(next: Shown | null) {
+  /** Show an answer. The card is brought into view unless the reader chose it on the map, which is already in view. */
+  function show(next: Shown | null, scroll = true) {
     if (!next) return;
     setShown(next);
+    if (!scroll) return;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     answer.current?.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" });
+  }
+
+  function pickOnMap(i: number) {
+    if (!data) return;
+    const a = data.england.at(i);
+    setHint(null);
+    if (isValued(a)) show({ kind: "area", area: a, how: "map" }, false);
+    else show(councilView(data, a.council, tooFewSales(a), a), false);
   }
 
   async function submit(e: FormEvent) {
@@ -158,7 +185,7 @@ export function App() {
     setHint({
       text:
         r.kind === "offline"
-          ? "The postcode lookup did not answer. Choose your council below instead."
+          ? "The postcode lookup did not answer. Tap your area on the map, or choose your council below."
           : "No current postcode matches that. Check it, or choose your council below.",
       problem: true,
     });
@@ -169,19 +196,45 @@ export function App() {
     [data],
   );
 
+  const focus: Focus = useMemo(() => {
+    if (!data || !shown || (shown.kind === "area" && shown.how === "start")) return null;
+    if (shown.kind === "area") return { kind: "area", index: data.england.indexOf(shown.area.code) };
+    if (shown.from) return { kind: "area", index: data.england.indexOf(shown.from) };
+    return { kind: "council", code: shown.council.code };
+  }, [data, shown]);
+
+  const form = (
+    <form className="lookup" onSubmit={submit}>
+      <label htmlFor="pc" className="visually-hidden">
+        Your postcode
+      </label>
+      <input
+        id="pc"
+        value={postcode}
+        onChange={(e) => setPostcode(e.target.value)}
+        autoComplete="postal-code"
+        autoCapitalize="characters"
+        spellCheck={false}
+        placeholder="Your postcode"
+        aria-describedby="pc-hint"
+        aria-invalid={hint?.problem ? "true" : "false"}
+      />
+      <button className="btn" type="submit" disabled={busy || !data}>
+        {busy ? "Finding" : "Find me"}
+      </button>
+    </form>
+  );
+
   return (
     <>
       <div className="wrap">
-        <header>
-          <div className="mark">
-            <span className="ladder" aria-hidden="true">
-              {[6, 7, 8, 9, 11, 13, 15, 16].map((h, i) => (
-                <i key={i} className={i === 3 ? "d" : undefined} style={{ height: h }} />
-              ))}
-            </span>
-            <b>Band D</b>
-            <small>council tax against what homes are worth</small>
-          </div>
+        <header className="bar">
+          <Monogram />
+          <p className="series">
+            A series of six by <b>Finn Lakin</b>
+            <br />
+            No. 1 · Council tax
+          </p>
           <button
             className="toggle"
             type="button"
@@ -193,117 +246,217 @@ export function App() {
         </header>
 
         <main>
-          <div className="hero">
-            <h1>How much of your home does council tax take?</h1>
-            <p className="lede">
-              Bills in England are still set on what homes were worth on 1 April 1991. This compares what every part of
-              England pays now with what its homes sold for in 2025.
-            </p>
-            <form className="lookup" onSubmit={submit}>
-              <label htmlFor="pc" className="visually-hidden">
-                Your postcode
-              </label>
-              <input
-                id="pc"
-                value={postcode}
-                onChange={(e) => setPostcode(e.target.value)}
-                autoComplete="postal-code"
-                autoCapitalize="characters"
-                spellCheck={false}
-                placeholder="Your postcode"
-                aria-describedby="pc-hint"
-                aria-invalid={hint?.problem ? "true" : "false"}
-              />
-              <button className="btn" type="submit" disabled={busy || !data}>
-                {busy ? "Finding" : "Find my area"}
-              </button>
-            </form>
-            <p id="pc-hint" className={hint?.problem ? "hint problem" : "hint"} role="status">
-              {hint?.text ?? "Sent only to postcodes.io, an open lookup, to find your area. Never kept."}
-            </p>
-            <div className="choices">
-              <span>Or try</span>
-              {(["Highest", "Middle", "Lowest"] as const).map((label) => {
-                const area = data
-                  ? { Highest: data.england.highest, Middle: data.england.middle, Lowest: data.england.lowest }[label]
-                  : null;
-                return (
-                  <button
-                    key={label}
-                    type="button"
-                    className="chip"
-                    disabled={!area}
-                    aria-pressed={!!area && shown?.kind === "area" && shown.area.code === area.code}
-                    aria-label={area ? `${label} rate in England: ${area.name}` : label}
-                    onClick={() => area && show({ kind: "area", area, how: "example" })}
-                  >
-                    {label}
-                  </button>
-                );
-              })}
+          <div className="stage">
+            <div className="head">
+              <h1>
+                <span className="nowrap">England, priced in</span> <em>1991.</em>
+              </h1>
+              <p className="dek">
+                Each dot is one of England's 33,755 small areas. Blue pays less council tax for what its homes are worth
+                than England as a whole; red pays more.
+              </p>
             </div>
-          </div>
 
-          <div ref={answer} className={data && shown ? "answer" : "answer skeleton"} aria-live="polite">
-            {failed ? (
-              <p>The data did not load. Refresh the page to try again.</p>
-            ) : data && shown ? (
-              <Answer data={data} shown={shown} />
-            ) : (
-              <p>Loading every part of England</p>
-            )}
-          </div>
+            <Note>
+              Council tax is still worked out from what your home would have sold for in April 1991. I wanted to see
+              what that looks like thirty-five years on, so I drew it.
+            </Note>
 
-          {data && (
-            <div className="council-pick">
-              <label htmlFor="council">No postcode, or not sure? Choose a council:</label>
-              <select
-                id="council"
-                value={shown?.kind === "council" ? shown.council.code : ""}
-                onChange={(e) => {
-                  const c = data.england.council(e.target.value);
-                  if (c) show(councilView(data, c, null));
-                }}
+            {data ? (
+              <EnglandMap
+                england={data.england}
+                points={data.points}
+                national={data.summary.national_rate}
+                focus={focus}
+                dark={theme.dark}
+                onPick={pickOnMap}
               >
-                <option value="">Choose</option>
-                {councils.map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
+                {form}
+              </EnglandMap>
+            ) : (
+              <figure className="map waiting">
+                <p>
+                  {failed ? "The data did not load. Refresh the page to try again." : "Drawing every part of England"}
+                </p>
+                <div className="find">{form}</div>
+              </figure>
+            )}
+
+            <div className="under">
+              <div className="choices">
+                <span>Or fly to</span>
+                {(["highest", "middle", "lowest"] as const).map((label) => {
+                  const area = data
+                    ? { highest: data.england.highest, middle: data.england.middle, lowest: data.england.lowest }[label]
+                    : null;
+                  return (
+                    <button
+                      key={label}
+                      type="button"
+                      className="chip"
+                      disabled={!area}
+                      aria-pressed={
+                        !!area && shown?.kind === "area" && shown.how === "example" && shown.area.code === area.code
+                      }
+                      aria-label={area ? `The ${label} rate in England: ${area.name}` : label}
+                      onClick={() => area && show({ kind: "area", area, how: "example" })}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+              <p id="pc-hint" className={hint?.problem ? "hint problem" : "hint"} role="status">
+                {hint?.text ??
+                  "Your postcode goes only to postcodes.io, an open lookup, to find your area. Never kept."}
+              </p>
             </div>
+
+            <div className="side">
+              <div ref={answer} className={data && shown ? "answer" : "answer skeleton"} aria-live="polite">
+                {failed ? (
+                  <p>The data did not load. Refresh the page to try again.</p>
+                ) : data && shown ? (
+                  <Answer data={data} shown={shown} />
+                ) : (
+                  <p>Loading every part of England</p>
+                )}
+              </div>
+              {data && shown && (
+                <Legend
+                  rate={shown.kind === "area" ? shown.area.rate : shown.stats.rate}
+                  national={data.summary.national_rate}
+                  lowest={data.england.lowest.rate}
+                  highest={data.england.highest.rate}
+                />
+              )}
+              {data && (
+                <div className="council-pick">
+                  <label htmlFor="council">No postcode? Choose a council:</label>
+                  <select
+                    id="council"
+                    value={shown?.kind === "council" ? shown.council.code : ""}
+                    onChange={(e) => {
+                      const c = data.england.council(e.target.value);
+                      if (c) show(councilView(data, c, null));
+                    }}
+                  >
+                    <option value="">Choose</option>
+                    {councils.map((c) => (
+                      <option key={c.code} value={c.code}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {below && data && shown && <Sections data={data} shown={shown} />}
+
+          {below && data && (
+            <Revalue
+              england={data.england}
+              points={data.points}
+              national={data.summary.national_rate}
+              payingLess={data.summary.proportional.share_paying_less}
+              dark={theme.dark}
+            />
           )}
 
-          {data && shown && <Sections data={data} shown={shown} />}
-
-          {data && shown && (
+          {below && data && shown && (
             <aside className="signoff">
               <p>
                 Now you know your own rate, not just your band letter. Mine surprised me too, which is the whole reason
-                this exists. More like it at <a href={PORTFOLIO}>finn-lakin-portfolio.netlify.app</a>.
+                this exists.
               </p>
             </aside>
           )}
+
+          <SeriesStrip here="band-d" ownThumb={below && data ? <OwnThumb data={data} /> : undefined} />
         </main>
 
         <footer>
           <p>
             Sources: VOA, Council Tax: stock of properties, 31 March 2025; MHCLG, Council Tax levels set by local
             authorities 2026-27 and Council Taxbase 2025; HM Land Registry Price Paid Data, 2025; ONS National
-            Statistics Postcode Lookup, May 2026; ONS House price statistics for small areas, dataset 46.
+            Statistics Postcode Lookup, May 2026; ONS House price statistics for small areas, dataset 46; ONS small area
+            population-weighted centroids, 2021.
           </p>
           <p>
             A typical home is the median 2025 sale in the area, standard sales only. Areas with fewer than five sales
-            are left out of the comparisons. Bills are the average for the area's mix of bands, with parish charges
-            averaged across each council, before discounts, exemptions and council tax support.
+            are left out of the comparisons and drawn in grey on the map. Each dot sits where the ONS puts the middle of
+            its area's population, so dots follow where people live rather than the shape of the area. Bills are the
+            average for the area's mix of bands, with parish charges averaged across each council, before discounts,
+            exemptions and council tax support.
           </p>
           <p>
-            Built by Finn Lakin. The method, the code and every check are at{" "}
-            <a href={REPO}>github.com/FinnTech3/band-d</a>. No cookies, no tracking.
+            Made by Finn Lakin. The method, the code and every check are at{" "}
+            <a href={REPO}>github.com/FinnTech3/band-d</a>, and the rest of my work is at{" "}
+            <a href={PORTFOLIO}>finn-lakin-portfolio.netlify.app</a>. No cookies, no tracking.
           </p>
         </footer>
       </div>
+    </>
+  );
+}
+
+/** Where a rate sits between the two ends of England, on the map's own scale. */
+function Legend({
+  rate,
+  national,
+  lowest,
+  highest,
+}: {
+  rate: number;
+  national: number;
+  lowest: number;
+  highest: number;
+}) {
+  const at = ((lean(rate, national) + 1) / 2) * 100;
+  return (
+    <div className="legend" aria-hidden="true">
+      <div className="say">
+        <span>pays less than England</span>
+        <span>pays more</span>
+      </div>
+      <div className="ramp">
+        <i style={{ left: `${at}%` }} />
+      </div>
+      <div className="ticks">
+        <span>{gbp(lowest, 2)}</span>
+        <span>{gbp(national, 2)} England</span>
+        <span>{gbp(highest, 2)}</span>
+      </div>
+      <div className="grey">
+        <b /> too few sales in 2025 to price
+      </div>
+    </div>
+  );
+}
+
+/** A coarse version of the map for the series strip: every eleventh area, in three colours. */
+function OwnThumb({ data }: { data: Data }) {
+  const paths = useMemo(() => {
+    const { points: p, england: e, summary } = data;
+    const d = ["", "", ""];
+    for (let i = 0; i < p.x.length; i += 11) {
+      const r = e.rates[i]!;
+      if (Number.isNaN(r)) continue;
+      const x = 22 + ((p.x[i]! - p.minX) / (p.maxX - p.minX)) * 80;
+      const y = 95 - ((p.y[i]! - p.minY) / (p.maxY - p.minY)) * 90;
+      const t = lean(r, summary.national_rate);
+      d[t < -0.16 ? 0 : t > 0.16 ? 2 : 1] += `M${x.toFixed(1)} ${y.toFixed(1)}h0`;
+    }
+    return d;
+  }, [data]);
+  return (
+    <>
+      <rect width="125" height="100" fill="#0c1310" />
+      {["#58a6ff", "#3a4a43", "#ff5c80"].map((colour, i) => (
+        <path key={colour} d={paths[i]} stroke={colour} strokeWidth="1.2" strokeLinecap="round" />
+      ))}
     </>
   );
 }
@@ -361,7 +514,7 @@ function Answer({ data, shown }: { data: Data; shown: Shown }) {
         <div className="where">
           <b>{a.name}</b>
           <span>{a.council.name}</span>
-          {shown.how === "example" && <span className="tag">Example</span>}
+          {(shown.how === "example" || shown.how === "start") && <span className="tag">Example</span>}
         </div>
         <div className="big">
           <span className="num">{gbp(counted ?? a.rate, 2)}</span>
@@ -403,17 +556,19 @@ function Sections({ data, shown }: { data: Data; shown: Shown }) {
     [e, isArea, shown, council.code],
   );
 
-  const card = useMemo(() => {
-    const bins = e.bins(0.25, 60, 40);
-    return {
+  const card = useMemo(
+    () => ({
       rate,
       name: place,
       council: isArea ? council.name : "the council as a whole",
       standing: isArea ? standing(shown.area, e) : "Across all its homes, on 2025 sales and 2026-27 bills.",
-      bins,
-      youBin: binOf(rate, 0.25, 60, 40),
-    };
-  }, [e, rate, place, isArea, council.name, shown]);
+      national: data.summary.national_rate,
+      points: data.points,
+      rates: e.rates,
+      index: isArea ? e.indexOf(shown.area.code) : shown.from ? e.indexOf(shown.from) : -1,
+    }),
+    [e, rate, place, isArea, council.name, shown, data],
+  );
 
   return (
     <>
@@ -433,7 +588,7 @@ function Sections({ data, shown }: { data: Data; shown: Shown }) {
         <div>
           <h2>Why: eight bands, frozen in 1991</h2>
           <p className="sub">
-            {`Every bill is a fixed fraction of the council's Band D. The top band pays three times the bottom one, however much the home is worth. Blue marks the bands that hold a quarter or more of the homes in ${place}.`}
+            {`Every bill is a fixed fraction of the council's Band D. The top band pays three times the bottom one, however much the home is worth. Green marks the bands that hold a quarter or more of the homes in ${place}.`}
           </p>
           <div className="fig">
             <BandsChart bandD={council.bandD} homesByBand={homesByBand} council={council.name} place={place} />
@@ -445,7 +600,11 @@ function Sections({ data, shown }: { data: Data; shown: Shown }) {
             England's homes in ten equal groups by value. Council tax a year per £1,000 of value, 2026-27.
           </p>
           <div className="fig">
-            <DecilesChart deciles={data.summary.deciles} you={isArea ? e.valueDecile(shown.area.code) : undefined} />
+            <DecilesChart
+              deciles={data.summary.deciles}
+              you={isArea ? e.valueDecile(shown.area.code) : undefined}
+              youLabel={label === "You" ? "You" : "Here"}
+            />
           </div>
         </div>
       </section>

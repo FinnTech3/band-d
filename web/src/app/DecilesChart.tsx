@@ -6,10 +6,12 @@ import { column } from "./marks";
 interface Props {
   deciles: Decile[];
   you: number | undefined;
+  /** What to call the lit column: "You" for the reader's own postcode, otherwise "Here". */
+  youLabel: string;
 }
 
 /** England's homes in ten equal groups by value, and what each pays per £1,000. */
-export function DecilesChart({ deciles, you }: Props) {
+export function DecilesChart({ deciles, you, youLabel }: Props) {
   const [ref, W] = useWidth<HTMLDivElement>(460);
   const H = 300;
   const L = 34;
@@ -53,7 +55,7 @@ export function DecilesChart({ deciles, you }: Props) {
               )}
               {lit && (
                 <text className="c-strong" x={cx} y={B + 18} textAnchor="middle">
-                  You
+                  {youLabel}
                 </text>
               )}
             </g>
