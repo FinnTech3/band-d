@@ -40,7 +40,6 @@
     --focus: #3987e5;
     --focus-bg: #182634;
     --signoff-link: #3995e5;
-    --signoff-link: #3995e5;
   }
 }
 
@@ -61,6 +60,7 @@
   --bad-bg: #3a1e1c;
   --focus: #3987e5;
   --focus-bg: #182634;
+  --signoff-link: #3995e5;
 }
 
 * {
