@@ -14,6 +14,7 @@
   --bad-bg: #fbe4e2;
   --focus: #2a78d6;
   --focus-bg: #e8f1fb;
+  --signoff-link: #2a66c7;
   --sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --cond: "IBM Plex Sans Condensed", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -38,6 +39,8 @@
     --bad-bg: #3a1e1c;
     --focus: #3987e5;
     --focus-bg: #182634;
+    --signoff-link: #3995e5;
+    --signoff-link: #3995e5;
   }
 }
 
@@ -699,9 +702,10 @@ h2 {
 }
 
 .signoff a {
-  color: var(--focus);
+  color: var(--signoff-link);
   font-weight: 600;
   font-style: normal;
+  text-decoration: underline;
 }
 
 /* footer */
