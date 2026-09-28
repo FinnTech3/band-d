@@ -3,6 +3,6 @@
 import { copyFileSync, mkdirSync } from "node:fs";
 
 mkdirSync("public/data", { recursive: true });
-for (const name of ["areas.json", "summary.json"]) {
+for (const name of ["areas.json", "points.json", "summary.json"]) {
   copyFileSync(`../data/built/${name}`, `public/data/${name}`);
 }

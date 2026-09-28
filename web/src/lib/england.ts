@@ -109,7 +109,8 @@ export class England {
 
   private readonly file: AreasFile;
   private readonly codes: Int32Array;
-  private readonly rates: Float64Array;
+  /** Every area's rate in code order, NaN where too few homes sold to price it. */
+  readonly rates: Float64Array;
   private readonly homesOf: Float64Array;
   /** Indices of valued areas, lowest rate first; ties by fewer homes, as the pipeline sorts. */
   private readonly order: Int32Array;
@@ -187,20 +188,35 @@ export class England {
     return Array.from({ length: this.size }, (_, i) => this.at(i));
   }
 
-  /** Binary search: codes are stored in order. */
-  find(code: string): Area | undefined {
-    if (!/^E\d{8}$/.test(code)) return undefined;
+  /** Binary search: codes are stored in order. -1 if there is no such area. */
+  indexOf(code: string): number {
+    if (!/^E\d{8}$/.test(code)) return -1;
     const target = Number(code.slice(1));
     let lo = 0;
     let hi = this.codes.length - 1;
     while (lo <= hi) {
       const mid = (lo + hi) >> 1;
       const c = this.codes[mid]!;
-      if (c === target) return this.at(mid);
+      if (c === target) return mid;
       if (c < target) lo = mid + 1;
       else hi = mid - 1;
     }
-    return undefined;
+    return -1;
+  }
+
+  find(code: string): Area | undefined {
+    const i = this.indexOf(code);
+    return i < 0 ? undefined : this.at(i);
+  }
+
+  /** Positions of every area in one council, valued or not. */
+  indicesIn(code: string): number[] {
+    const c = this.file.councils.findIndex(([cc]) => cc === code);
+    const out: number[] = [];
+    this.file.council.forEach((ci, i) => {
+      if (ci === c) out.push(i);
+    });
+    return out;
   }
 
   council(code: string): Council | undefined {
