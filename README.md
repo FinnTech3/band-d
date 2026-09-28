@@ -1,11 +1,18 @@
 # band-d
 
 Council tax in England is still worked out from what each home would have sold
-for on 1 April 1991. This measures what that now means, in every one of
-England's 32,853 small areas with enough sales to value: how many pounds of
-council tax a year each area pays for every £1,000 its homes are worth.
+for on 1 April 1991. Nobody has bought a house at 1991 prices in over thirty
+years, and the system has never once been asked to notice. This measures what
+that now means, in every one of England's 32,853 small areas with enough sales
+to value: how many pounds of council tax a year each area pays for every
+£1,000 its homes are worth.
 
 **Try it with your postcode:** [finntech3.github.io/band-d](https://finntech3.github.io/band-d/)
+
+**Why I built this.** I wanted to know what my own council tax band was
+actually buying me, and a band letter turned out to be a much worse guide to
+that than I assumed going in. So I stopped trusting the letter and built the
+rate instead.
 
 ## The finding
 
@@ -36,11 +43,14 @@ The Westminster home is worth 109 times the Durham one. Its bill is 9% lower.
 
 **What I think this means.** Council tax is usually argued about as a question
 of which band a home is in, or which council sets the bill. Both are the
-smaller part of it. Most of the spread comes from differences in value the
-bands cannot see: prices that have moved apart since 1991, and a top band that
-charges three times the bottom one however much more the home is worth. A tax
-built like that will charge the cheapest homes most for what they are worth,
-whichever council sets the rate.
+smaller part of it, and both are more fun to argue about than the actual
+cause, which is a spreadsheet nobody has opened since John Major was in
+office. Most of the spread comes from differences in value the bands cannot
+see: prices that have moved apart since 1991, and a top band that charges
+three times the bottom one however much more the home is worth. A tax built
+like that will charge the cheapest homes most for what they are worth,
+whichever council sets the rate. Blaming your council for this is a bit like
+blaming a shop for a price tag that was printed in 1991 and laminated shut.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/bill-vs-value-dark.svg">

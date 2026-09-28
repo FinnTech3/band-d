@@ -663,6 +663,29 @@ h2 {
   margin: 8px 0 0;
 }
 
+/* the note from Finn, shown once there is an answer to react to */
+
+.signoff {
+  margin-top: 32px;
+  padding: 16px 18px;
+  border-left: 3px solid var(--you);
+  background: var(--panel);
+  border-radius: 0 8px 8px 0;
+}
+
+.signoff p {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.signoff a {
+  color: var(--you);
+  font-weight: 600;
+}
+
 /* footer */
 
 footer {
