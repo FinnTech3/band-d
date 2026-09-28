@@ -5,7 +5,7 @@ from __future__ import annotations
 import functools
 
 from bandd import build, study
-from bandd.analysis import SUPPRESSED_AS
+from bandd.analysis import SUPPRESSED_AS, add_up
 from bandd.bands import NINTHS
 
 ORDER = "ABCDEFGH"
@@ -24,8 +24,8 @@ def rebuilt_rates(p: dict, suppressed_as: float = SUPPRESSED_AS) -> dict[str, fl
         if p["median"][i] is None:
             continue
         counts = [suppressed_as if n == -1 else 10.0 * n for n in p["bands"][i]]
-        homes = sum(counts)
-        ratio = sum(c * NINTHS[b] / 9 for c, b in zip(counts, ORDER)) / homes
+        homes = add_up(counts)
+        ratio = add_up(c * NINTHS[b] / 9 for c, b in zip(counts, ORDER)) / homes
         band_d = p["councils"][p["council"][i]][2]
         out[f"E{number:08d}"] = 1000 * (band_d * ratio) / p["median"][i]
     return out
