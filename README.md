@@ -9,10 +9,10 @@ to value: how many pounds of council tax a year each area pays for every
 
 **Try it with your postcode:** [finntech3.github.io/band-d](https://finntech3.github.io/band-d/)
 
-**Why I built this.** I wanted to know what my own council tax band was
-actually buying me, and a band letter turned out to be a much worse guide to
-that than I assumed going in. So I stopped trusting the letter and built the
-rate instead.
+**Why I built this.** A council tax band is just a letter, and nobody ever
+explains what it is actually buying you relative to anyone else's letter.
+I built this to put a number on it, and it turned out to be a worse deal
+than the letter let on.
 
 ## The finding
 

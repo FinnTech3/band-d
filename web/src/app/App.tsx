@@ -279,9 +279,8 @@ export function App() {
           {data && shown && (
             <aside className="signoff">
               <p>
-                I built this because I wanted to know what my own band was actually buying me, and the letter turned out
-                to be a worse guide than I assumed. If that was worth your two minutes, I've got more like it at{" "}
-                <a href={PORTFOLIO}>finn-lakin-portfolio.netlify.app</a>.
+                Now you know your own rate, not just your band letter. Mine surprised me too, which is the whole reason
+                this exists. More like it at <a href={PORTFOLIO}>finn-lakin-portfolio.netlify.app</a>.
               </p>
             </aside>
           )}
