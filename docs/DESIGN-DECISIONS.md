@@ -89,6 +89,34 @@ average bill by £959 is not. I have kept it as arithmetic. It ignores people
 whose home is worth far more than their income, the transition, and what
 happens to prices, all of which a real reform would have to face.
 
+On the page it is a slider under a second copy of the map. Each area's rate
+moves in a straight line from today's to England's £5.92, so the halfway
+point is half of each bill from the bands and half from value. The 69% who
+would pay less is the pipeline's figure, built from mean prices like every
+other England-wide number; the map's colours use each area's median, like
+every area on the page.
+
+## Why a map of dots, not council boundaries?
+
+A council is too big to say anything about one street: Durham's areas run
+from £5.62 to £45.04. Small-area boundaries are the right size but would make the
+page download several megabytes of shapes, and in a city they shrink to
+slivers you cannot see or tap. A dot for each area, placed where its people
+live, costs 67 KB, keeps every area the same size on screen, and draws the
+country's shape out of its own population. The price is that the map shows
+where people are, not where the land is: the Pennines and Dartmoor are empty
+because almost nobody lives there.
+
+## Why colour by multiples of England's rate?
+
+Because the rates run from £0.38 to £45.04. On a scale in pounds, all of
+London would be one colour and the whole of the rest of England would be
+spread across the remainder. Measured by multiples, half England's rate is
+as far to the blue side as double is to the red, and anything beyond 3.3
+times either way takes the end colour. About 1% of homes sit past each end.
+Blue and crimson were picked because they stay apart for all three common
+kinds of colour blindness, which the teal I tried first did not.
+
 ## Why does the app get raw inputs rather than finished rates?
 
 So the arithmetic a reader sees is done in front of them, and so the app can be
@@ -108,6 +136,7 @@ area code, never the postcode, so a shared link does not share an address.
 ## Why no charting library?
 
 The charts are a histogram, a set of bars and ten columns. Drawing them as SVG
-directly keeps the page under 60 KB of JavaScript, lets each one resize to the
+directly, and the map on a plain canvas, keeps the page under 65 KB of
+JavaScript, lets each one resize to the
 screen so its text stays readable on a phone, and puts the colours in CSS so a
 change of theme needs no redraw.

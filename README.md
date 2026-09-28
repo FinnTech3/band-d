@@ -168,6 +168,10 @@ the last bit.
 - **The rate.** £ of council tax a year per £1,000 of value: the average bill
   over the typical price for an area, and total tax over total value (built
   from mean prices) for England, its tenths and its councils.
+- **The map.** One dot for each of the 33,755 small areas, placed at the ONS
+  population-weighted centroid, so the dots gather where people live. Colour
+  is the area's rate against England's £5.92, measured by multiples: blue
+  pays less, red pays more, grey had too few sales to price.
 
 There is more on each choice in [docs/DESIGN-DECISIONS.md](docs/DESIGN-DECISIONS.md),
 and every source, address and checksum is in [docs/SOURCES.md](docs/SOURCES.md).
