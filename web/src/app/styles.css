@@ -13,6 +13,7 @@
   --bad: #b3261e;
   --bad-bg: #fbe4e2;
   --focus: #2a78d6;
+  --focus-bg: #e8f1fb;
   --sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --cond: "IBM Plex Sans Condensed", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -36,6 +37,7 @@
     --bad: #f2b8b5;
     --bad-bg: #3a1e1c;
     --focus: #3987e5;
+    --focus-bg: #182634;
   }
 }
 
@@ -55,6 +57,7 @@
   --bad: #f2b8b5;
   --bad-bg: #3a1e1c;
   --focus: #3987e5;
+  --focus-bg: #182634;
 }
 
 * {
@@ -666,24 +669,39 @@ h2 {
 /* the note from Finn, shown once there is an answer to react to */
 
 .signoff {
+  position: relative;
   margin-top: 32px;
-  padding: 16px 18px;
-  border-left: 3px solid var(--you);
-  background: var(--panel);
-  border-radius: 0 8px 8px 0;
+  padding: 20px 22px 20px 54px;
+  border-left: 4px solid var(--focus);
+  background: var(--focus-bg);
+  border-radius: 0 10px 10px 0;
+}
+
+.signoff::before {
+  content: "\201C";
+  position: absolute;
+  left: 14px;
+  top: 6px;
+  font-family: var(--cond);
+  font-size: 42px;
+  line-height: 1;
+  color: var(--focus);
+  opacity: 0.6;
 }
 
 .signoff p {
   margin: 0;
-  max-width: 62ch;
+  max-width: 58ch;
   font-size: 15px;
-  line-height: 1.5;
-  color: var(--ink-2);
+  line-height: 1.55;
+  font-style: italic;
+  color: var(--ink);
 }
 
 .signoff a {
-  color: var(--you);
+  color: var(--focus);
   font-weight: 600;
+  font-style: normal;
 }
 
 /* footer */
