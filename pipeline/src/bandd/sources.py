@@ -81,6 +81,13 @@ def load_area_authority(path: str | None = None) -> dict[str, str]:
         return {r["lsoa21cd"]: r["lad25cd"] for r in csv.DictReader(f)}
 
 
+def load_centroids(path: str | None = None) -> dict[str, tuple[float, float]]:
+    """ONS population-weighted centroids of 2021 LSOAs, British National Grid metres."""
+    path = path or os.path.join(SOURCES, "lsoa21_pwc.csv")
+    with open(path, newline="") as f:
+        return {r["lsoa21cd"]: (float(r["easting"]), float(r["northing"])) for r in csv.DictReader(f)}
+
+
 # --------------------------------------------------------------------------
 # MHCLG: what each council charges, 2026-27
 

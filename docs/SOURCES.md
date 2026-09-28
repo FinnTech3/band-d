@@ -1,6 +1,6 @@
 # Sources
 
-Everything was downloaded on 24 September 2026. Files in `data/sources` are
+Everything was downloaded on 24 September 2026, except the map's centroids, fetched on 28 September 2026. Files in `data/sources` are
 committed as downloaded or, where noted, as the one table taken from a larger
 file. Files too large to commit are listed with their SHA-256 so a fresh
 download can be checked against the one used here.
@@ -13,6 +13,7 @@ download can be checked against the one used here.
 | `data/sources/Table_10_2026-27.ods` | MHCLG, Council Tax levels set by local authorities in England 2026 to 2027, Table 10 | https://assets.publishing.service.gov.uk/media/6a02eeeccd2e0e8b5b20b449/Table_10_2026-27.ods | `b5b8345743fb722e48699243d1654a3e35b96c89a14c6eb26888035c3e38feb0` |
 | `data/sources/2025_Local_Authority_Drop_Down.xlsx` | MHCLG, Council Taxbase 2025 in England, local authority level data | https://assets.publishing.service.gov.uk/media/696f605ff6aa424b452e3359/2025_Local_Authority_Drop_Down.xlsx | `9fd74444f25278b53f7666dc23ff060d1996adcfe27e74caf63aef2b5b19af06` |
 | `data/sources/hpssa46_median_by_lsoa.csv` | ONS, House price statistics for small areas, dataset 46: median price paid by LSOA, sheet 1a, four periods taken by `scripts/extract_hpssa.py` | https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/housing/datasets/medianpricepaidbylowerlayersuperoutputareahpssadataset46/current/hpssadataset46medianpricepaidforresidentialpropertiesbylsoa.zip | `85b492a66b03591e10432734f352c22f8189968c19480e1144807a3507dbbf61` |
+| `data/sources/lsoa21_pwc.csv` | ONS, Lower layer Super Output Areas (December 2021) population-weighted centroids, V4, fetched page by page by `scripts/fetch_centroids.py` on 28 September 2026 | https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/LSOA_PopCentroids_EW_2021_V4/FeatureServer/0 | `99b1c993582a20b32a4fff19abd47ddd68f5031cb635ce248e60337b34486a7f` |
 
 ## Too large to commit
 
@@ -80,3 +81,5 @@ Crown copyright and database right 2026. The postcode lookup contains OS data
 © Crown copyright and database right 2026, Royal Mail data © Royal Mail
 copyright and database right 2026, and National Statistics data © Crown
 copyright and database right 2026.
+The centroids contain OS data © Crown copyright and database right 2021,
+under the same licence.

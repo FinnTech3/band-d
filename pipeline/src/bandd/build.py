@@ -2,7 +2,7 @@
 
     PYTHONPATH=pipeline/src python3 -m bandd.build
 
-Two files go to data/built/, and are copied into the app at build time:
+Three files go to data/built/, and are copied into the app at build time:
 
 areas.json
     Every small area in England, 33,755 of them, as the raw inputs rather than
@@ -25,6 +25,14 @@ summary.json
     recomputed by the app's tests from areas.json and must match exactly; the
     ones built from mean prices are not, because areas.json leaves the means
     out to stay small.
+
+points.json
+    Where each of those areas sits on the map, in the same order as
+    areas.json: the ONS population-weighted centroid, in British National Grid
+    hundreds of metres. A dot 100 m out is invisible at any zoom the map
+    allows. Each column is stored as the gap from the previous area's value,
+    because neighbouring codes are neighbouring places and small gaps
+    compress well.
 
 Refuses to write anything if a verification check fails.
 """
@@ -62,7 +70,7 @@ def areas_payload() -> dict:
     cols: dict[str, list] = {k: [] for k in ("code_step", "prefix", "suffix", "council", "bands",
                                               "sales", "median")}
     previous = 0
-    for code in sorted(c for c in stock if c.startswith("E01")):
+    for code in area_codes():
         st = stock[code]
         prefix, _, suffix = st.name.rpartition(" ")
         if prefix not in prefix_index:
@@ -85,6 +93,29 @@ def areas_payload() -> dict:
         "prefixes": prefixes,
         **cols,
     }
+
+
+POINT_STEP = 100  # metres
+
+
+def area_codes() -> list[str]:
+    stock, _ = sources.load_stock()
+    return sorted(c for c in stock if c.startswith("E01"))
+
+
+def points_payload() -> dict:
+    centroids = sources.load_centroids()
+    missing = [c for c in area_codes() if c not in centroids]
+    if missing:
+        raise ValueError(f"{len(missing)} areas have no centroid, starting {missing[0]}")
+    cols: dict[str, list[int]] = {"x": [], "y": []}
+    previous = [0, 0]
+    for code in area_codes():
+        for j, key in enumerate(("x", "y")):
+            v = round(centroids[code][j] / POINT_STEP)
+            cols[key].append(v - previous[j])
+            previous[j] = v
+    return {"step": POINT_STEP, **cols}
 
 
 def summary_payload() -> dict:
@@ -130,7 +161,8 @@ def main() -> int:
         print("A verification check failed; not writing the app's data.", file=sys.stderr)
         return 1
     os.makedirs(BUILT, exist_ok=True)
-    for name, payload in (("areas.json", areas_payload()), ("summary.json", summary_payload())):
+    for name, payload in (("areas.json", areas_payload()), ("points.json", points_payload()),
+                          ("summary.json", summary_payload())):
         size = write(os.path.join(BUILT, name), payload)
         print(f"data/built/{name}: {size:,} bytes")
     return 0

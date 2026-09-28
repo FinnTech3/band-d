@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import functools
 
-from bandd import build, study
+from bandd import build, sources, study
 from bandd.analysis import SUPPRESSED_AS, add_up
 from bandd.bands import NINTHS
 
@@ -48,3 +48,25 @@ def test_twin_the_wrong_suppression_rule_does_not_rebuild_them():
     areas = {a.code: a.rate for a in study.run()["areas"]}
     rebuilt = rebuilt_rates(payload(), suppressed_as=0.0)
     assert sum(1 for c in areas if rebuilt[c] != areas[c]) > 10_000
+
+
+def test_every_area_has_a_point_on_the_map_inside_england():
+    p = build.points_payload()
+    assert len(p["x"]) == len(p["y"]) == len(payload()["code_step"])
+    x = y = 0
+    for dx, dy in zip(p["x"], p["y"]):
+        x, y = x + dx, y + dy
+        # England's extent on the National Grid, from the Scillies to Berwick
+        assert 80_000 <= x * p["step"] <= 660_000
+        assert 0 <= y * p["step"] <= 660_000
+
+
+def test_points_land_where_the_centroids_say():
+    centroids = sources.load_centroids()
+    p = build.points_payload()
+    x = y = 0
+    for code, dx, dy in zip(build.area_codes(), p["x"], p["y"]):
+        x, y = x + dx, y + dy
+        cx, cy = centroids[code]
+        assert abs(x * p["step"] - cx) <= p["step"] / 2
+        assert abs(y * p["step"] - cy) <= p["step"] / 2
