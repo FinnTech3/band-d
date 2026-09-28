@@ -43,6 +43,12 @@ export interface PriceCheck {
   p90_abs_gap: number;
 }
 
+export interface Proportional {
+  rate_per_1000: number;
+  share_paying_less: number;
+  by_decile: { decile: number; average_change: number }[];
+}
+
 export interface Summary {
   period: string;
   areas: number;
@@ -54,6 +60,7 @@ export interface Summary {
   highest: Extreme[];
   lowest: Extreme[];
   councils: CouncilSummary[];
+  proportional: Proportional;
   checks: Check[];
   price_checks: Record<string, PriceCheck>;
 }
