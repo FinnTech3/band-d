@@ -212,6 +212,7 @@ export function App() {
                 spellCheck={false}
                 placeholder="Your postcode"
                 aria-describedby="pc-hint"
+                aria-invalid={hint?.problem ? "true" : "false"}
               />
               <button className="btn" type="submit" disabled={busy || !data}>
                 {busy ? "Finding" : "Find my area"}
