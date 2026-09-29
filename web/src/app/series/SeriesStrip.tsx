@@ -1,34 +1,43 @@
 import type { ReactNode } from "react";
+import { ENGLAND_DOTS, PENSION_RIDGE } from "./thumbs";
 import { PORTFOLIO, SERIES } from "./series";
 
 // A small picture of each tool, drawn once by hand in its own colours.
 const THUMBS: Record<string, ReactNode> = {
+  "band-d": (
+    <>
+      <rect width="125" height="100" fill="#0c1310" />
+      {ENGLAND_DOTS.map((d, i) => (
+        <path key={i} d={d} stroke={["#58a6ff", "#3a4a43", "#ff5c80"][i]} strokeWidth="1.1" strokeLinecap="round" />
+      ))}
+    </>
+  ),
   "degree-value": (
     <>
-      <rect width="125" height="100" fill="#10193a" />
-      <g strokeLinecap="round" fill="none" strokeWidth="3">
-        <path d="M10 18 H70" stroke="#c9d3ea" />
-        <path d="M10 28 H78" stroke="#c9d3ea" />
-        <path d="M10 38 H96" stroke="#9fb0da" />
-        <path d="M10 48 H115" stroke="#7d8fc4" />
-        <path d="M10 58 H115" stroke="#7d8fc4" />
-        <path d="M10 68 H90" stroke="#9fb0da" />
-        <path d="M10 78 H115" stroke="#6b7db8" />
-        <path d="M10 88 H60" stroke="#c9d3ea" />
+      <rect width="125" height="100" fill="#0b1022" />
+      <g fill="none" strokeWidth="1.6" strokeLinecap="round">
+        <path d="M10 50 C22 50, 18 14, 28 14 L52 14" stroke={"#c9d1e8"} />
+        <path d="M10 50 C22 50, 18 20, 28 20 L57 20" stroke={"#c9d1e8"} />
+        <path d="M10 50 C22 50, 18 26, 28 26 L66 26" stroke={"#c9d1e8"} />
+        <path d="M10 50 C22 50, 18 32, 28 32 L70 32" stroke={"#c9d1e8"} />
+        <path d="M10 50 C22 50, 18 38, 28 38 L75 38" stroke={"#c9d1e8"} />
+        <path d="M10 50 C22 50, 18 44, 28 44 L80 44" stroke={"#c9d1e8"} />
+        <path d="M10 50 C22 50, 18 50, 28 50 L86 50" stroke={"#c9d1e8"} />
+        <path d="M10 50 C22 50, 18 56, 28 56 L92 56" stroke={"#c9d1e8"} />
+        <path d="M10 50 C22 50, 18 62, 28 62 L98 62" stroke={"#c9d1e8"} />
+        <path d="M10 50 C22 50, 18 68, 28 68 L116 68" stroke={"#6f78a0"} />
+        <path d="M10 50 C22 50, 18 74, 28 74 L116 74" stroke={"#6f78a0"} />
+        <path d="M10 50 C22 50, 18 80, 28 80 L116 80" stroke={"#6f78a0"} />
+        <path d="M10 50 C22 50, 18 86, 28 86 L116 86" stroke={"#6f78a0"} />
       </g>
     </>
   ),
   "pension-pot": (
     <>
       <rect width="125" height="100" fill="#2a1f4a" />
-      <rect y="50" width="125" height="50" fill="#5a3d6c" />
-      <path d="M0 80 L18 62 L30 70 L48 44 L62 30 L74 46 L88 38 L100 58 L112 50 L125 66 V100 H0Z" fill="#1a1530" />
-      <path
-        d="M0 80 L18 62 L30 70 L48 44 L62 30 L74 46 L88 38 L100 58 L112 50 L125 66"
-        fill="none"
-        stroke="#f2c6d6"
-        strokeWidth="1.5"
-      />
+      <rect y="52" width="125" height="48" fill="#5a3d6c" />
+      <path d={`${PENSION_RIDGE}L125 100L0 100Z`} fill="#1a1530" />
+      <path d={PENSION_RIDGE} fill="none" stroke="#f2c6d6" strokeWidth="1.4" strokeLinejoin="round" />
     </>
   ),
   "trolley-watch": (
@@ -78,18 +87,24 @@ const THUMBS: Record<string, ReactNode> = {
   "brexit-baseline": (
     <>
       <rect width="125" height="100" fill="#0b0d24" />
-      <g fill="none" strokeLinecap="round">
-        <path d="M14 70 C50 64, 80 40, 118 22" stroke="#e9e7ff" strokeWidth="1.4" />
-        <path d="M14 70 C50 66, 84 52, 118 40" stroke="#9c93f0" strokeWidth="1.1" />
-        <path d="M14 70 C50 70, 86 64, 118 60" stroke="#e8739e" strokeWidth="1.1" />
-        <path d="M14 70 C50 74, 86 80, 118 84" stroke="#4d4a7a" strokeWidth="0.9" />
-        <path d="M14 70 C50 60, 76 30, 118 12" stroke="#4d4a7a" strokeWidth="0.9" />
-      </g>
-      <g fill="#fff">
-        <circle cx="30" cy="20" r="0.8" />
-        <circle cx="52" cy="14" r="0.6" />
-        <circle cx="96" cy="72" r="0.7" />
-        <circle cx="104" cy="10" r="0.9" />
+      <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+        {/* the years every baseline is fitted to, where they still agree */}
+        <path
+          d="M6 62 L18 58 L26 66 L34 61 L42 63 L50 59 L58 62M6 66 L18 63 L26 70 L34 65 L42 67 L50 64 L58 66M6 58 L18 54 L26 62 L34 57 L42 59 L50 55 L58 58"
+          stroke="#5a5f99"
+          strokeWidth="0.8"
+        />
+        {/* and where they stop agreeing */}
+        <path d="M58 58 L72 44 L84 48 L98 30 L112 22 L119 14" stroke="#ff9ec2" strokeWidth="1.6" />
+        <path d="M58 60 L72 52 L84 55 L98 44 L112 39 L119 34" stroke="#c9c2ff" strokeWidth="1.6" />
+        <path d="M58 62 L72 58 L84 60 L98 55 L112 52 L119 49" stroke="#7ec8f2" strokeWidth="1.6" />
+        <g strokeWidth="0.9">
+          <path d="M58 59 L72 48 L84 51 L98 37 L112 31 L119 25" stroke="#a56584" />
+          <path d="M58 63 L72 62 L84 64 L98 63 L112 62 L119 61" stroke="#6f6aa8" />
+          <path d="M58 64 L72 66 L84 69 L98 72 L112 76 L119 80" stroke="#4f7f9e" />
+          <path d="M58 65 L72 70 L84 74 L98 80 L112 85 L119 90" stroke="#6f6aa8" />
+        </g>
+        <path d="M6 62 H119" stroke="#e9e7ff" strokeWidth="1" />
       </g>
     </>
   ),
@@ -97,12 +112,10 @@ const THUMBS: Record<string, ReactNode> = {
 
 interface Props {
   here: string;
-  /** This site's own picture, drawn from its data. */
-  ownThumb?: ReactNode;
 }
 
 /** The other five, so a reader who liked this one has somewhere to go next. */
-export function SeriesStrip({ here, ownThumb }: Props) {
+export function SeriesStrip({ here }: Props) {
   return (
     <nav className="strip" aria-labelledby="strip-title">
       <h2 id="strip-title">A series of six by Finn Lakin</h2>
@@ -117,7 +130,7 @@ export function SeriesStrip({ here, ownThumb }: Props) {
             <li key={w.slug}>
               <a className={isHere ? "work here" : "work"} href={w.url} aria-current={isHere ? "page" : undefined}>
                 <svg viewBox="0 0 125 100" aria-hidden="true">
-                  {isHere && ownThumb ? ownThumb : THUMBS[w.slug]}
+                  {THUMBS[w.slug]}
                 </svg>
                 <span>
                   <small>{isHere ? `No. ${w.no} · You are here` : `No. ${w.no} · ${w.topic}`}</small>

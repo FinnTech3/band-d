@@ -374,7 +374,7 @@ export function App() {
             </aside>
           )}
 
-          <SeriesStrip here="band-d" ownThumb={below && data ? <OwnThumb data={data} /> : undefined} />
+          <SeriesStrip here="band-d" />
         </main>
 
         <footer>
@@ -433,31 +433,6 @@ function Legend({
         <b /> too few sales in 2025 to price
       </div>
     </div>
-  );
-}
-
-/** A coarse version of the map for the series strip: every eleventh area, in three colours. */
-function OwnThumb({ data }: { data: Data }) {
-  const paths = useMemo(() => {
-    const { points: p, england: e, summary } = data;
-    const d = ["", "", ""];
-    for (let i = 0; i < p.x.length; i += 11) {
-      const r = e.rates[i]!;
-      if (Number.isNaN(r)) continue;
-      const x = 22 + ((p.x[i]! - p.minX) / (p.maxX - p.minX)) * 80;
-      const y = 95 - ((p.y[i]! - p.minY) / (p.maxY - p.minY)) * 90;
-      const t = lean(r, summary.national_rate);
-      d[t < -0.16 ? 0 : t > 0.16 ? 2 : 1] += `M${x.toFixed(1)} ${y.toFixed(1)}h0`;
-    }
-    return d;
-  }, [data]);
-  return (
-    <>
-      <rect width="125" height="100" fill="#0c1310" />
-      {["#58a6ff", "#3a4a43", "#ff5c80"].map((colour, i) => (
-        <path key={colour} d={paths[i]} stroke={colour} strokeWidth="1.2" strokeLinecap="round" />
-      ))}
-    </>
   );
 }
 

@@ -5,6 +5,7 @@
   --ink-2: #3f4c45;
   --muted: #5a665f;
   --rule: #d6ccb6;
+  --edge: #9b8657;
   --grid: #e8e1d1;
   --rest: #8f8670;
   --you: #1f5c46;
@@ -37,6 +38,7 @@
     --ink-2: #c2c9bf;
     --muted: #97a19a;
     --rule: #26332d;
+    --edge: #526e61;
     --grid: #1c2823;
     --rest: #607068;
     --you: #6cc59f;
@@ -64,6 +66,7 @@
   --ink-2: #c2c9bf;
   --muted: #97a19a;
   --rule: #26332d;
+  --edge: #526e61;
   --grid: #1c2823;
   --rest: #607068;
   --you: #6cc59f;
@@ -184,7 +187,7 @@ select {
   margin-left: auto;
   flex: none;
   background: none;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--edge);
   border-radius: 999px;
   padding: 6px 12px;
   font-family: var(--mono);
@@ -345,7 +348,7 @@ figure.map.waiting p {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--edge);
   background: var(--panel);
   color: var(--ink);
   cursor: pointer;
@@ -376,7 +379,7 @@ figure.map.waiting p {
   display: flex;
   gap: 6px;
   background: var(--panel);
-  border: 1px solid var(--rule);
+  border: 1px solid var(--edge);
   border-radius: 999px;
   padding: 5px;
   box-shadow: 0 10px 30px -18px var(--shadow);
@@ -428,7 +431,7 @@ figure.map.waiting p {
 .btn.quiet {
   background: var(--panel);
   color: var(--ink);
-  border: 1px solid var(--rule);
+  border: 1px solid var(--edge);
 }
 
 .under {
@@ -451,7 +454,7 @@ figure.map.waiting p {
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.02em;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--edge);
   background: var(--panel);
   color: var(--ink-2);
   border-radius: 999px;
@@ -770,7 +773,7 @@ figure.map.waiting p {
 
 .council-pick select {
   background: var(--panel);
-  border: 1px solid var(--rule);
+  border: 1px solid var(--edge);
   border-radius: 8px;
   padding: 8px 10px;
   max-width: 100%;
