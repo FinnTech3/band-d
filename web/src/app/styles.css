@@ -205,6 +205,12 @@ select {
   gap: 18px;
 }
 
+/* a grid item must never be wider than its track, whatever is inside it */
+.stage > *,
+.side > * {
+  min-width: 0;
+}
+
 .head {
   padding-top: 8px;
 }
@@ -212,7 +218,7 @@ select {
 h1 {
   font-family: var(--serif);
   font-weight: 600;
-  font-size: clamp(33px, 9vw, 76px);
+  font-size: clamp(26px, 9vw, 76px);
   line-height: 1;
   letter-spacing: -0.02em;
   margin: 0;
