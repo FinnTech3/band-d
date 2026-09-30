@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { type AreasFile, England } from "./england";
-import { type PointsFile, decodePoints } from "./points";
+import { type PointsFile, decodePoints, looksLikePointsFile } from "./points";
 
 const england = new England(JSON.parse(readFileSync("public/data/areas.json", "utf8")) as AreasFile);
 const points = decodePoints(JSON.parse(readFileSync("public/data/points.json", "utf8")) as PointsFile);
@@ -29,5 +29,14 @@ describe("the map's points", () => {
     expect(points.y[lo]).toBeLessThan(184_000);
     expect(points.y[hi]).toBeGreaterThan(520_000);
     expect(points.y[hi]).toBeLessThan(560_000);
+  });
+});
+
+describe("the points load guard", () => {
+  it("accepts the real file and rejects anything that is not it", () => {
+    const raw = JSON.parse(readFileSync("public/data/points.json", "utf8"));
+    expect(looksLikePointsFile(raw)).toBe(true);
+    for (const bad of [null, undefined, {}, [], [1, 2, 3], { x: [], y: [] }, "text", 5])
+      expect(looksLikePointsFile(bad)).toBe(false);
   });
 });

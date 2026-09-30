@@ -3,8 +3,8 @@
 
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { type AreasFile, England, SUPPRESSED_AS, decodeArea } from "./england";
-import type { Summary } from "./summary";
+import { type AreasFile, England, SUPPRESSED_AS, decodeArea, looksLikeAreasFile } from "./england";
+import { type Summary, looksLikeSummary } from "./summary";
 
 const file = JSON.parse(readFileSync("public/data/areas.json", "utf8")) as AreasFile;
 const summary = JSON.parse(readFileSync("public/data/summary.json", "utf8")) as Summary;
@@ -100,5 +100,20 @@ describe("tenths of England by value", () => {
     const a = england.middle;
     const at = england.valued.filter((v) => v.rate === a.rate).reduce((s, v) => s + v.homes, 0) / england.homes;
     expect(england.shareBelow(a.rate) + at + england.shareAbove(a.rate)).toBeCloseTo(1, 12);
+  });
+});
+
+describe("the load guards", () => {
+  // The wrong shape used to reach render and blank the page, summary the worst
+  // of the three because it is passed straight through.
+  it("accept the real files and reject anything that is not them", () => {
+    expect(looksLikeAreasFile(file)).toBe(true);
+    expect(looksLikeSummary(summary)).toBe(true);
+    for (const bad of [null, undefined, {}, [], [1, 2, 3], "text", 5]) {
+      expect(looksLikeAreasFile(bad)).toBe(false);
+      expect(looksLikeSummary(bad)).toBe(false);
+    }
+    expect(looksLikeAreasFile({ councils: [] })).toBe(false);
+    expect(looksLikeSummary({ councils: [] })).toBe(false);
   });
 });

@@ -40,3 +40,10 @@ export function decodePoints(file: PointsFile): Points {
   }
   return { x, y, minX, maxX, minY, maxY };
 }
+
+/** True when a parsed JSON body looks like the points file, before it is decoded. */
+export function looksLikePointsFile(x: unknown): x is PointsFile {
+  if (typeof x !== "object" || x === null) return false;
+  const f = x as Partial<PointsFile>;
+  return Array.isArray(f.x) && Array.isArray(f.y) && typeof f.step === "number";
+}

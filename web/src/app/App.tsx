@@ -1,11 +1,11 @@
 import { type FormEvent, useEffect, useMemo, useRef, useState } from "react";
-import { type Area, type AreasFile, type Council, England, type Valued, isValued } from "../lib/england";
+import { type Area, type AreasFile, type Council, England, type Valued, isValued, looksLikeAreasFile } from "../lib/england";
 import { gbp } from "../lib/format";
-import { type Points, type PointsFile, decodePoints } from "../lib/points";
+import { type Points, type PointsFile, decodePoints, looksLikePointsFile } from "../lib/points";
 import { lookup, normalise, pretty } from "../lib/postcode";
 import { lean } from "../lib/shade";
 import { comparison, standing } from "../lib/story";
-import type { CouncilSummary, Summary } from "../lib/summary";
+import { type CouncilSummary, type Summary, looksLikeSummary } from "../lib/summary";
 import { type Place, readPlace, writePlace } from "../lib/url";
 import { BandsChart } from "./BandsChart";
 import { Checks } from "./Checks";
@@ -45,6 +45,9 @@ async function load(): Promise<Data> {
     fetch(`${base}data/points.json`).then((r) => r.json() as Promise<PointsFile>),
     fetch(`${base}data/summary.json`).then((r) => r.json() as Promise<Summary>),
   ]);
+  if (!looksLikeAreasFile(areas) || !looksLikePointsFile(points) || !looksLikeSummary(summary)) {
+    throw new Error("unexpected data shape");
+  }
   return { england: new England(areas), points: decodePoints(points), summary };
 }
 

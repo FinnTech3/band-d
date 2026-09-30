@@ -323,3 +323,14 @@ export function binOf(rate: number, lo: number, hi: number, n: number): number {
   const k = Math.floor(((Math.log(rate) - Math.log(lo)) / (Math.log(hi) - Math.log(lo))) * n);
   return Math.min(n - 1, Math.max(0, k));
 }
+
+/**
+ * True when a parsed JSON body looks like the areas file. Checks only the
+ * top-level arrays the England constructor reads, enough to route a wrong
+ * shape to the "did not load" message rather than a blank page.
+ */
+export function looksLikeAreasFile(x: unknown): x is AreasFile {
+  if (typeof x !== "object" || x === null) return false;
+  const f = x as Partial<AreasFile>;
+  return Array.isArray(f.councils) && Array.isArray(f.bands) && Array.isArray(f.median);
+}

@@ -64,3 +64,14 @@ export interface Summary {
   checks: Check[];
   price_checks: Record<string, PriceCheck>;
 }
+
+/**
+ * True when a parsed JSON body looks like the summary file. This is the one of
+ * band-d's three files passed straight to render, so without the guard a wrong
+ * shape here reached `summary.councils.find` and blanked the page.
+ */
+export function looksLikeSummary(x: unknown): x is Summary {
+  if (typeof x !== "object" || x === null) return false;
+  const f = x as Partial<Summary>;
+  return Array.isArray(f.councils) && Array.isArray(f.deciles) && typeof f.national_rate === "number";
+}
